@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		foreach(Touch touch in Input.touches) {
+			Debug.Log(touch.phase);
 			if (touch.phase == TouchPhase.Began) {
 				numTouching += 1;
 			} else if (touch.phase == TouchPhase.Ended) {
@@ -24,12 +25,14 @@ public class PlayerMovement : MonoBehaviour {
 		}
 
 		isTouching = numTouching > 0;
+	}
 
+	void FixedUpdate() {
 		if (isTouching) {
-			rigidBody.AddForce(new Vector2(0, 100));
+			rigidBody.AddForce(new Vector2(0, 30));
 			Debug.Log("Tooching");
 		} else {
-			rigidBody.AddForce(new Vector2(0, -100));
+			rigidBody.AddForce(new Vector2(0, -30));
 		}
 	}
 }
