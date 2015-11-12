@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -22,11 +23,14 @@ public class PlayerMovement : MonoBehaviour {
 				} else {
 					numTouching += 1;
 				}
-			} else if (touch.phase == TouchPhase.Ended && !OnFireButton(touch)) {
+			} else if (touch.phase == TouchPhase.Ended) {
 				numTouching -= 1;
+				if (numTouching < 0) {
+					numTouching = 0;
+				}
 			}
 		}
-
+		Debug.Log(numTouching);
 		isTouching = numTouching > 0;
 	}
 
@@ -37,7 +41,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	bool OnFireButton(Touch touch) {
-		if (touch.position.x < 150 && touch.position.y < 150) {
+		if (touch.position.x < Screen.width * .2 && touch.position.y < Screen.height * .2) {
 			return true;
 		}
 		return false;
