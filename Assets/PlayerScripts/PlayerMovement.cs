@@ -18,12 +18,13 @@ public class PlayerMovement : MonoBehaviour {
 	void Update () {
 		foreach(Touch touch in Input.touches) {
 			if (touch.phase == TouchPhase.Began) {
-				if (OnFireButton(touch)) {
+				if (OnFireButton(touch.position)) {
 					gameObject.SendMessage("FireLaser");
 				} else {
 					numTouching += 1;
 				}
-			} else if (touch.phase == TouchPhase.Ended) {
+			} else if (touch.phase == TouchPhase.Ended && 
+								! OnFireButton(touch.position - touch.deltaPosition)) {
 				numTouching -= 1;
 				if (numTouching < 0) {
 					numTouching = 0;
@@ -39,8 +40,8 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 
-	bool OnFireButton(Touch touch) {
-		if (touch.position.x < Screen.width * .2 && touch.position.y < Screen.height * .2) {
+	bool OnFireButton(Vector2 touchPos) {
+		if (touchPos.x < Screen.width * .2 && touchPos.y < Screen.height * .2) {
 			return true;
 		}
 		return false;
