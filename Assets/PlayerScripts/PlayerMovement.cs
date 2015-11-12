@@ -12,13 +12,17 @@ public class PlayerMovement : MonoBehaviour {
 		numTouching = 0;
 		rigidBody = GetComponent<Rigidbody2D>();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		foreach(Touch touch in Input.touches) {
 			if (touch.phase == TouchPhase.Began) {
-				numTouching += 1;
-			} else if (touch.phase == TouchPhase.Ended) {
+				if (OnFireButton(touch)) {
+					gameObject.SendMessage("FireLaser");
+				} else {
+					numTouching += 1;
+				}
+			} else if (touch.phase == TouchPhase.Ended && !OnFireButton(touch)) {
 				numTouching -= 1;
 			}
 		}
@@ -30,5 +34,12 @@ public class PlayerMovement : MonoBehaviour {
 		if (isTouching) {
 			rigidBody.AddForce(new Vector2(0, 20));
 		}
+	}
+
+	bool OnFireButton(Touch touch) {
+		if (touch.position.x < 150 && touch.position.y < 150) {
+			return true;
+		}
+		return false;
 	}
 }
