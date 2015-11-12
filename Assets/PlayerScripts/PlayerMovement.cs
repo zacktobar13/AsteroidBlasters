@@ -30,7 +30,6 @@ public class PlayerMovement : MonoBehaviour {
 				}
 			}
 		}
-		Debug.Log(numTouching);
 		isTouching = numTouching > 0;
 	}
 
