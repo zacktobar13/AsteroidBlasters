@@ -3,13 +3,14 @@ using System.Collections;
 
 public class LaserBehavior : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
+	void FixedUpdate () {
+		gameObject.transform.Translate(15f * Time.deltaTime, 0f, 0f);	
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	void OnTriggerEnter2D (Collider2D other) {
+		Debug.Log(other.gameObject.tag);
+		if (other.gameObject.tag == "Asteroid") {
+			other.gameObject.SendMessage("GetRekt");
+		}
 	}
 }
