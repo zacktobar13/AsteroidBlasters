@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour {
 			text.SetActive(true);
 		}
 		foreach (GameObject asteroid in GameObject.FindGameObjectsWithTag("Asteroid")) {
-			asteroid.SendMessage("GetRekt");
+			Destroy(asteroid);
 		}
 	}
 	
