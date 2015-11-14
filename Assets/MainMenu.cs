@@ -3,8 +3,7 @@ using System.Collections;
 
 public class MainMenu : MonoBehaviour {
 
-	public GameObject player;
-	public GameObject asteroidSpawner;
+	public GameObject player, asteroidSpawner, laserButton;
 	public GameObject[] menuText;
 
 	// Use this for initialization
@@ -23,6 +22,7 @@ public class MainMenu : MonoBehaviour {
 			if (touch.phase == TouchPhase.Began) {
 				if (OnStartButton(touch.position)) {
 					player.SetActive(true);
+					laserButton.SetActive(true);
 					asteroidSpawner.SetActive(true);
 					foreach (GameObject text in menuText) {
 						text.SetActive(false);

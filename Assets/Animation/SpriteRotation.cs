@@ -4,9 +4,10 @@ using System.Collections;
 public class SpriteRotation : MonoBehaviour {
 
 	float rotationRate;
+	public float rotationMin, rotationMax;
 
 	void Start() {
-		rotationRate = Random.Range(-80f, 80f);
+		rotationRate = Random.Range(rotationMin, rotationMax);
 	}
 
 	void Update () {	
