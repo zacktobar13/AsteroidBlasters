@@ -8,20 +8,20 @@ public class AsteroidSpawnerManager : MonoBehaviour {
 
 	public const int MAX_SPAWN_RATE = 1;
 	float gameTime;
+	float totalTime;
 	GameObject[] asteroidSpawners;
-	
-
-	public void StartOfGame() {
-		gameTime = Time.time;
-	}
 
 	void Start () {
-		gameTime = Time.time;
 		asteroidSpawners = GameObject.FindGameObjectsWithTag("AsteroidSpawner");
+	}
+
+	void OnEnable() {
+		totalTime = Time.time;
+		gameTime = Time.time - totalTime;
 	}
 	
 	void Update () {
-		gameTime = Time.time;
+		gameTime = Time.time - totalTime;
 		if (ShouldSpawnAsteroid()) {
 			SpawnAsteroid();
 		}

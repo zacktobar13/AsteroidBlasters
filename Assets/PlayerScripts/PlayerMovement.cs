@@ -8,10 +8,16 @@ public class PlayerMovement : MonoBehaviour {
 	int numTouching;
 	Rigidbody2D rigidBody;
 
+	bool mainMenu;
+
 	void Start () {
 		isTouching = false;
 		numTouching = 0;
 		rigidBody = GetComponent<Rigidbody2D>();
+	}
+
+	void OnEnable() {
+		transform.position = new Vector2(-7.6f, 0f);
 	}
 
 	// Update is called once per frame
