@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	bool OnFireButton(Vector2 touchPos) {
-		if (touchPos.x < Screen.width * .2 && touchPos.y < Screen.height * .2) {
+		if (touchPos.x > Screen.width * .8 && touchPos.y < Screen.height * .2) {
 			return true;
 		}
 		return false;
