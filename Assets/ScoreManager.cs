@@ -33,7 +33,7 @@ public class ScoreManager : MonoBehaviour {
 	}
 
 	int PullScoreFromFile() {
-		string filePath = Application.dataPath + "/score.txt";
+		string filePath = Application.persistentDataPath + "/score.txt";
 		if (File.Exists(filePath) == false) {
 			string[] temp = {""+currentScore};
 			File.WriteAllLines(filePath, temp);
@@ -49,7 +49,8 @@ public class ScoreManager : MonoBehaviour {
 	}
 
 	void OnApplicationQuit() {
-		string filePath = Application.dataPath + "/score.txt";
+		string filePath = Application.persistentDataPath + "/score.txt";
+		Debug.Log(Application.persistentDataPath);
 		string[] temp = {""+highestScore};
 		File.WriteAllLines(filePath, temp);
 	}
