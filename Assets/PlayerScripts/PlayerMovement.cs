@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviour {
 		isTouching = numTouching > 0;
 		if (Input.touches.Length == 0) {
 			isTouching = false;
+			numTouching = 0;
 		}
 	}
 
