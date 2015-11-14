@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour {
 					numTouching += 1;
 				}
 			} else if (touch.phase == TouchPhase.Ended && 
-								! OnFireButton(touch.position - touch.deltaPosition)) {
+								(! OnFireButton(touch.position - touch.deltaPosition))) {
 				numTouching -= 1;
 				if (numTouching < 0) {
 					numTouching = 0;
@@ -38,6 +38,9 @@ public class PlayerMovement : MonoBehaviour {
 			}
 		}
 		isTouching = numTouching > 0;
+		if (Input.touches.Length == 0) {
+			isTouching = false;
+		}
 	}
 
 	void FixedUpdate() {
