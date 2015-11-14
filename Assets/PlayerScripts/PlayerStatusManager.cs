@@ -12,7 +12,7 @@ public class PlayerStatusManager : MonoBehaviour {
 	}
 	// Use this for initialization
 	public void GetRekt() {
-		Instantiate(playerPieces,transform.position, transform.rotation);
+		Destroy(Instantiate(playerPieces,transform.position, transform.rotation), 1.3f);
 		mainMenu.enabled = true;
 		asteroidSpawner.SetActive(false);
 		laserButton.SetActive(false);

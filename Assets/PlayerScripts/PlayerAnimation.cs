@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PlayerAnimation : MonoBehaviour {
 
+	#pragma warning disable 0108
 	Rigidbody2D rigidbody;
 	Animator animator;
 

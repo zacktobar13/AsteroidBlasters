@@ -11,7 +11,7 @@ public class AsteroidStatusManager : MonoBehaviour {
 	}
 
 	public void GetRekt() {
-		Instantiate(asteroidPieces, gameObject.transform.position, gameObject.transform.rotation);
+		Destroy(Instantiate(asteroidPieces, gameObject.transform.position, gameObject.transform.rotation), .5f);
 		Destroy(gameObject);
 		scoreManager.SendMessage("AddPoints", 5);
 	}
