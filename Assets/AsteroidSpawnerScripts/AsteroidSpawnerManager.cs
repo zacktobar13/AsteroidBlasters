@@ -6,15 +6,26 @@ public class AsteroidSpawnerManager : MonoBehaviour {
 	public const int MAX_SPAWN_RATE = 1;
 	float gameTime;
 	float totalTime;
+	public GameObject ScoreManager;
 	GameObject[] asteroidSpawners;
 
 	void Start () {
 		asteroidSpawners = GameObject.FindGameObjectsWithTag("AsteroidSpawner");
+		ScoreManager = GameObject.FindWithTag("ScoreManager");
 	}
 
 	void OnEnable() {
 		totalTime = Time.time;
 		gameTime = Time.time - totalTime;
+		InvokeRepeating("AddPoints", 0, 1f);
+	}
+
+	void OnDisable() {
+		CancelInvoke();
+	}
+
+	void AddPoints() {
+		ScoreManager.SendMessage("AddPoints", 1);
 	}
 	
 	void Update () {

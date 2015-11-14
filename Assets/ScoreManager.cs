@@ -2,6 +2,7 @@
 using System.Collections;
 using System.IO;
 using System.Linq;
+using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour {
 
@@ -10,14 +11,17 @@ public class ScoreManager : MonoBehaviour {
 	/* This is pulled from a file */
 	int highestScore;
 
+	public Text scoreTextUI;
+
 	void Start () {
 		currentScore = 0;
 		highestScore = PullScoreFromFile();
-		Debug.Log("Highest Score: " + highestScore);
+		scoreTextUI.text = ScoreTextUI();
 	}
 
 	public void AddPoints(int amount) {
 		currentScore += amount;
+		scoreTextUI.text = ScoreTextUI();
 	}
 
 	public void EndOfRound() {
@@ -25,6 +29,7 @@ public class ScoreManager : MonoBehaviour {
 			highestScore = currentScore;
 		}
 		currentScore = 0;
+		scoreTextUI.text = ScoreTextUI();
 	}
 
 	int PullScoreFromFile() {
@@ -32,12 +37,13 @@ public class ScoreManager : MonoBehaviour {
 		if (File.Exists(filePath) == false) {
 			string[] temp = {""+currentScore};
 			File.WriteAllLines(filePath, temp);
-			Debug.Log(filePath);
+
+
 			return 0;
 		} else {
 			StreamReader reader = new StreamReader(filePath);
-			Debug.Log(filePath);
 			string line = reader.ReadLine();
+			reader.Close();
 			return int.Parse(line);
 		}
 	}
@@ -46,5 +52,9 @@ public class ScoreManager : MonoBehaviour {
 		string filePath = Application.dataPath + "/score.txt";
 		string[] temp = {""+highestScore};
 		File.WriteAllLines(filePath, temp);
+	}
+
+	string ScoreTextUI() {
+		return "High Score: " + highestScore + "   Current Score: " + currentScore;
 	}
 }
