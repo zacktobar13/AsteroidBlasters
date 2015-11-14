@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ScoreManager : MonoBehaviour {
 
 	int currentScore;
+	string filePath;
 
 	/* This is pulled from a file */
 	int highestScore;
@@ -15,6 +16,7 @@ public class ScoreManager : MonoBehaviour {
 
 	void Start () {
 		currentScore = 0;
+		filePath = Application.persistentDataPath + "/score.txt";
 		highestScore = PullScoreFromFile();
 		scoreTextUI.text = ScoreTextUI();
 	}
@@ -30,29 +32,22 @@ public class ScoreManager : MonoBehaviour {
 		}
 		currentScore = 0;
 		scoreTextUI.text = ScoreTextUI();
+		string[] temp = {""+highestScore};
+		File.WriteAllLines(filePath, temp);
 	}
 
 	int PullScoreFromFile() {
-		string filePath = Application.persistentDataPath + "/score.txt";
 		if (File.Exists(filePath) == false) {
 			string[] temp = {""+currentScore};
 			File.WriteAllLines(filePath, temp);
-
-
 			return 0;
 		} else {
 			StreamReader reader = new StreamReader(filePath);
 			string line = reader.ReadLine();
 			reader.Close();
+			scoreTextUI.text = "" + int.Parse(line);
 			return int.Parse(line);
 		}
-	}
-
-	void OnApplicationQuit() {
-		string filePath = Application.persistentDataPath + "/score.txt";
-		Debug.Log(Application.persistentDataPath);
-		string[] temp = {""+highestScore};
-		File.WriteAllLines(filePath, temp);
 	}
 
 	string ScoreTextUI() {
