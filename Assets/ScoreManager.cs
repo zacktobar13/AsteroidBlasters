@@ -23,6 +23,9 @@ public class ScoreManager : MonoBehaviour {
 
 	public void AddPoints(int amount) {
 		currentScore += amount;
+		if (currentScore > highestScore) {
+			highestScore = currentScore;
+		}
 		scoreTextUI.text = ScoreTextUI();
 	}
 
