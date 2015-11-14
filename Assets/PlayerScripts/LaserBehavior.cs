@@ -8,7 +8,6 @@ public class LaserBehavior : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D other) {
-		Debug.Log(other.gameObject.tag);
 		if (other.gameObject.tag == "Asteroid") {
 			other.gameObject.SendMessage("GetRekt");
 		}

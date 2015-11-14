@@ -6,46 +6,41 @@ public class AsteroidSpawnerManager : MonoBehaviour {
 	/* "Time" here isn't actually the game time, it's a more fixed rate
 	*  of how long the current game has been going */
 
-	int lastAsteroidSpawnTime, gameTime = 0;
-	int asteroidSpawnRate;
-	public const int MAX_SPAWN_RATE = 15, MIN_SPAWN_RATE = 1;
+	public const int MAX_SPAWN_RATE = 1;
+	float gameTime;
 	GameObject[] asteroidSpawners;
 	
 
 	public void StartOfGame() {
-		gameTime = 0;
-		CalculateSpawnRate();
+		gameTime = Time.time;
 	}
 
 	void Start () {
+		gameTime = Time.time;
 		asteroidSpawners = GameObject.FindGameObjectsWithTag("AsteroidSpawner");
-		InvokeRepeating("UpdateGameTime", 0f, 1f);
 	}
 	
 	void Update () {
-		if (gameTime - lastAsteroidSpawnTime > asteroidSpawnRate) {
+		gameTime = Time.time;
+		if (ShouldSpawnAsteroid()) {
 			SpawnAsteroid();
 		}
 	}
 
 	void SpawnAsteroid() {
 		asteroidSpawners[Random.Range(0, asteroidSpawners.Length)].SendMessage("SpawnAsteroid");
-		lastAsteroidSpawnTime = gameTime;
 	}
 
-	void UpdateGameTime() {
-		gameTime += 1;
-		CalculateSpawnRate();
+	bool ShouldSpawnAsteroid() {
+		return isEqual(Mathf.Cos(gameTime * 3f) / gameTime, 0f, .002f);
 	}
 
-	void CalculateSpawnRate() {
-		if (asteroidSpawnRate < MAX_SPAWN_RATE) {
-			asteroidSpawnRate = gameTime / 1000;
-			if (asteroidSpawnRate < MIN_SPAWN_RATE) {
-				asteroidSpawnRate = MIN_SPAWN_RATE;
-			}
-		} else {
-			return;
+	bool isEqual(float x, float y, float tolerance) {
+		float difference = Mathf.Abs(x - y);
+		if (difference < tolerance) {
+			return true;
 		}
+		return false;
 	}
+
 }
