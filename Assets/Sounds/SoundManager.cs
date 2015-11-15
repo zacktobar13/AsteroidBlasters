@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour {
 	
 	void Start () {
 		audioSources = GetComponent<AudioSource>();
+		soundEnabled = true;
 	}
 	
 	public void PlaySound (AudioClip sound, float volume = -1f) {
