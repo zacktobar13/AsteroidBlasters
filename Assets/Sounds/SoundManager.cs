@@ -10,11 +10,6 @@ public class SoundManager : MonoBehaviour {
 		audioSources = GetComponent<AudioSource>();
 	}
 	
-	
-	void Update () {
-	
-	}
-
 	public void PlaySound (AudioClip sound, float volume = -1f) {
 		if (volume != -1f) {
 			audioSources.volume = volume;

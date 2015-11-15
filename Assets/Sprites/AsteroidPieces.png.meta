@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: a923a542aa8c77147a5ebd9073582896
-timeCreated: 1447309374
+timeCreated: 1447562051
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -11,6 +11,8 @@ TextureImporter:
     21300008: AsteroidPieces_4
     21300010: AsteroidPieces_5
     21300012: AsteroidPieces_6
+    21300014: AsteroidPieces_7
+    21300016: AsteroidPieces_8
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -34,7 +36,7 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
-  maxTextureSize: 32
+  maxTextureSize: 128
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -57,52 +59,52 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: AsteroidPieces_0
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 11
-        width: 7
-        height: 4
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
     - name: AsteroidPieces_1
       rect:
         serializedVersion: 2
-        x: 9
-        y: 9
-        width: 3
-        height: 4
+        x: 13
+        y: 16
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: AsteroidPieces_2
       rect:
         serializedVersion: 2
-        x: 12
-        y: 12
-        width: 4
-        height: 4
+        x: 9
+        y: 17
+        width: 3
+        height: 2
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: AsteroidPieces_3
       rect:
         serializedVersion: 2
-        x: 8
-        y: 2
+        x: 1
+        y: 18
         width: 7
-        height: 7
+        height: 5
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: AsteroidPieces_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 8
+        width: 10
+        height: 8
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: AsteroidPieces_4
       rect:
         serializedVersion: 2
-        x: 3
+        x: 11
         y: 5
-        width: 5
+        width: 4
         height: 4
       alignment: 0
       pivot: {x: .5, y: .5}
@@ -110,20 +112,40 @@ TextureImporter:
     - name: AsteroidPieces_5
       rect:
         serializedVersion: 2
-        x: 0
-        y: 6
-        width: 2
-        height: 2
+        x: 17
+        y: 10
+        width: 6
+        height: 5
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: AsteroidPieces_6
       rect:
         serializedVersion: 2
-        x: 2
+        x: 17
+        y: 0
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: AsteroidPieces_7
+      rect:
+        serializedVersion: 2
+        x: 12
         y: 1
-        width: 5
+        width: 3
         height: 3
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: AsteroidPieces_8
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 1
+        width: 6
+        height: 5
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
