@@ -6,7 +6,7 @@ public class BarrierBehavior : MonoBehaviour {
 	public float speed;
 
 	void Update () {
-		transform.Translate(speed, 0f, 0f);
+		transform.Translate(speed * Time.deltaTime, 0f, 0f);
 	}
 
 	void OnCollisionEnter2D (Collision2D other) {

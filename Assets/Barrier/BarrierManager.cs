@@ -8,7 +8,7 @@ public class BarrierManager : MonoBehaviour {
 
 	/* Change these variables if art for barrier is ever changed */
 	float barrierLength = 1.6f;
-	float respawnTime = 0.1f;
+	float respawnTime = 0.105f;
 
 	void OnEnable () {
 		for (int i = 0; i < (topRight.position.x - topLeft.position.x) / barrierLength; i++) {
