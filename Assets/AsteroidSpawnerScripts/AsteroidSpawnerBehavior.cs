@@ -2,13 +2,11 @@
 using System.Collections;
 
 public class AsteroidSpawnerBehavior : MonoBehaviour {
-
-	/* Eventually we will have an array of different asteroids that can
-	*  be spawned, but for now its just this one. */
-
-	public GameObject asteroid;
+	
+	public GameObject[] asteroids;
 
 	public void SpawnAsteroid() {
-		Destroy(Instantiate(asteroid, transform.position, transform.rotation), 10f);
+		GameObject asteroidToSpawn = asteroids[Random.Range(0, asteroids.Length)];
+		Destroy(Instantiate(asteroidToSpawn, transform.position, transform.rotation), 10f);
 	}
 }

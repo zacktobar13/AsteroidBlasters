@@ -3,7 +3,6 @@ using System.Collections;
 
 public class AsteroidSpawnerManager : MonoBehaviour {
 
-	public const int MAX_SPAWN_RATE = 1;
 	float gameTime;
 	float totalTime;
 	public GameObject ScoreManager;
