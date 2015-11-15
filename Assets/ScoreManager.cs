@@ -6,37 +6,47 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour {
 
-	int currentScore;
+	int currentScore, previousRoundsScore;
 	string filePath;
+	bool firstHighScore = true;
 
 	/* This is pulled from a file */
 	int highestScore;
 
-	public Text scoreTextUI;
+	public Text scoreTextUI, newHighScore;
 
 	void Start () {
 		currentScore = 0;
 		filePath = Application.persistentDataPath + "/score.txt";
 		highestScore = PullScoreFromFile();
-		scoreTextUI.text = ScoreTextUI();
+		scoreTextUI.text = "High Score: " + highestScore;
 	}
 
 	public void AddPoints(int amount) {
 		currentScore += amount;
-		if (currentScore > highestScore) {
-			highestScore = currentScore;
+		if (currentScore > highestScore && firstHighScore) {
+			StartCoroutine("ShowHighScoreText", 1.5);
+			firstHighScore = false;
 		}
-		scoreTextUI.text = ScoreTextUI();
+		scoreTextUI.text = CurrentScore();
 	}
 
 	public void EndOfRound() {
 		if (currentScore > highestScore) {
 			highestScore = currentScore;
 		}
+		firstHighScore = true;
+		previousRoundsScore = currentScore;
 		currentScore = 0;
-		scoreTextUI.text = ScoreTextUI();
+		scoreTextUI.text = MainMenuScore();
 		string[] temp = {""+highestScore};
 		File.WriteAllLines(filePath, temp);
+	}
+
+	IEnumerator ShowHighScoreText(int seconds) {
+		newHighScore.text = "NEW HIGH SCORE!";
+		yield return new WaitForSeconds(seconds);
+		newHighScore.text = "";
 	}
 
 	int PullScoreFromFile() {
@@ -53,7 +63,10 @@ public class ScoreManager : MonoBehaviour {
 		}
 	}
 
-	string ScoreTextUI() {
-		return "High Score: " + highestScore + "   Current Score: " + currentScore;
+	string CurrentScore() {
+		return "Current Score: " + currentScore;
+	}
+	string MainMenuScore() {
+		return "High Score: " + highestScore + "     Previous Round: " + previousRoundsScore; 
 	}
 }
