@@ -5,6 +5,7 @@ public class SoundManager : MonoBehaviour {
 
 	AudioSource audioSources;
 	bool soundEnabled;
+	public GameObject Music;
 	
 	void Start () {
 		audioSources = GetComponent<AudioSource>();
@@ -24,9 +25,11 @@ public class SoundManager : MonoBehaviour {
 
 	public void EnableSound() {
 		soundEnabled = true;
+		Music.SetActive(true);
 	}
 
 	public void DisableSound() {
 		soundEnabled = false;
+		Music.SetActive(false);
 	}
 }
