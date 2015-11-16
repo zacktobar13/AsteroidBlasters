@@ -5,7 +5,7 @@ public class PlanetGenerator : MonoBehaviour {
 	public GameObject[] planets;
 
 	void Start() {
-		InvokeRepeating("SpawnPlanet", 0, Random.Range(1, 10));
+		InvokeRepeating("SpawnPlanet", Random.Range(5, 10), Random.Range(10, 20));
 	}
 
 	void SpawnPlanet() {
