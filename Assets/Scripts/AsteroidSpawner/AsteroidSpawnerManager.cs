@@ -39,7 +39,7 @@ public class AsteroidSpawnerManager : MonoBehaviour {
 	}
 
 	bool ShouldSpawnAsteroid() {
-		return isEqual(Mathf.Cos(gameTime * 3f) / gameTime, 0f, .002f);
+		return isEqual(Mathf.Cos(gameTime * 3f) / (gameTime * 1.5f), 0f, .002f);
 	}
 
 	bool isEqual(float x, float y, float tolerance) {
