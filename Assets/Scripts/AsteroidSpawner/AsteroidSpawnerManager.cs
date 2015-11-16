@@ -24,7 +24,7 @@ public class AsteroidSpawnerManager : MonoBehaviour {
 	}
 
 	void AddPoints() {
-		ScoreManager.SendMessage("AddPoints", 1);
+		ScoreManager.SendMessage("AddPoints", 3);
 	}
 	
 	void Update () {

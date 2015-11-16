@@ -12,8 +12,4 @@ public class PlanetMovement : MonoBehaviour {
 	void Update() {
 		transform.Translate(movementSpeed * Time.deltaTime, 0f, 0f);
 	}
-/*
-	void OnBecameInvisible() {
-		Destroy(gameObject);
-	}*/
 }

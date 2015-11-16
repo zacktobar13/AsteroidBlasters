@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerStatusManager : MonoBehaviour {
 
 	public MainMenu mainMenu;
-	public GameObject asteroidSpawner, playerPieces, laserButton;
+	public GameObject asteroidSpawner, playerPieces, playerExplosion, laserButton;
 	GameObject ScoreManager;
 
 	void Start() {
@@ -13,6 +13,7 @@ public class PlayerStatusManager : MonoBehaviour {
 	// Use this for initialization
 	public void GetRekt() {
 		Destroy(Instantiate(playerPieces,transform.position, transform.rotation), 1.3f);
+		Destroy(Instantiate(playerExplosion,transform.position, transform.rotation), .5f);
 		mainMenu.enabled = true;
 		asteroidSpawner.SetActive(false);
 		laserButton.SetActive(false);
