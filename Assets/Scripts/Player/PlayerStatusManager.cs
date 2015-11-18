@@ -11,16 +11,13 @@ public class PlayerStatusManager : MonoBehaviour {
 		ScoreManager = GameObject.FindWithTag("ScoreManager");
 	}
 
-	void OnEnable() {
-		
-	}
-	// Use this for initialization
 	public void GetRekt() {
 		Destroy(Instantiate(playerPieces,transform.position, transform.rotation), 1.3f);
 		mainMenu.enabled = true;
 		asteroidSpawner.SetActive(false);
 		laserButton.SetActive(false);
 		gameObject.SetActive(false);
+		MainMenu.activeGamePlaying = false;
 		ScoreManager.SendMessage("EndOfRound");
 	}
 }

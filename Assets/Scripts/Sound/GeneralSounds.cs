@@ -4,7 +4,7 @@ using System.Collections;
 public class GeneralSounds : MonoBehaviour {
 
 	public AudioClip[] Sounds;
-	public SoundManager soundManager;
+	SoundManager soundManager;
 	public float volume;
 
 	void Start() {

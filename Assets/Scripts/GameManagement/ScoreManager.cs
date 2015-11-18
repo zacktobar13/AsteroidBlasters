@@ -25,7 +25,7 @@ public class ScoreManager : MonoBehaviour {
 	public void AddPoints(int amount) {
 		currentScore += amount;
 		if (currentScore > highestScore && firstHighScore) {
-			StartCoroutine("ShowHighScoreText", 1.5);
+			StartCoroutine("ShowHighScoreText", 2.5f);
 			firstHighScore = false;
 		}
 		scoreTextUI.text = CurrentScore();
@@ -67,6 +67,6 @@ public class ScoreManager : MonoBehaviour {
 		return "Current Score: " + currentScore;
 	}
 	string MainMenuScore() {
-		return "High Score: " + highestScore + "     Previous Round: " + previousRoundsScore; 
+		return "High Score: " + highestScore + "    Last Score: " + previousRoundsScore; 
 	}
 }
