@@ -4,19 +4,17 @@ using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour {
 
-	bool isTouching;
-	int numTouching;
 	Rigidbody2D rigidBody;
 
+	bool isTouching;
 	bool mainMenu;
 
 	void Start () {
-		isTouching = false;
-		numTouching = 0;
 		rigidBody = GetComponent<Rigidbody2D>();
 	}
 
 	void OnEnable() {
+		isTouching = false;
 		transform.position = new Vector2(-7.6f, 0f);
 	}
 
@@ -26,21 +24,17 @@ public class PlayerMovement : MonoBehaviour {
 			if (touch.phase == TouchPhase.Began) {
 				if (OnFireButton(touch.position)) {
 					gameObject.SendMessage("FireLaser");
-				} else {
-					numTouching += 1;
+				} else if (!isTouching) {
+					isTouching = OnThrustButton(touch.position);
 				}
-			} else if (touch.phase == TouchPhase.Ended && 
-								(! OnFireButton(touch.position - touch.deltaPosition))) {
-				numTouching -= 1;
-				if (numTouching < 0) {
-					numTouching = 0;
+			} else if (touch.phase == TouchPhase.Moved) {
+				if (OnThrustButton(touch.position - touch.deltaPosition) && !OnThrustButton(touch.position)) {
+					isTouching = false;
 				}
 			}
 		}
-		isTouching = numTouching > 0;
 		if (Input.touches.Length == 0) {
 			isTouching = false;
-			numTouching = 0;
 		}
 	}
 
@@ -52,6 +46,13 @@ public class PlayerMovement : MonoBehaviour {
 
 	bool OnFireButton(Vector2 touchPos) {
 		if (touchPos.x > Screen.width * .7 && touchPos.y < Screen.height * .3) {
+			return true;
+		}
+		return false;
+	}
+
+	bool OnThrustButton(Vector2 touchPos) {
+		if (touchPos.x < Screen.width * .3 && touchPos.y < Screen.height * .3) {
 			return true;
 		}
 		return false;
