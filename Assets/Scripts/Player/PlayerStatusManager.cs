@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerStatusManager : MonoBehaviour {
 
 	public MainMenu mainMenu;
-	public GameObject asteroidSpawner, playerPieces, laserButton;
+	public GameObject asteroidSpawner, playerPieces, laserButton, thrustButton, startButton, creditsButton, quitButton;
 	GameObject ScoreManager;
 
 	void Start() {
@@ -16,6 +16,10 @@ public class PlayerStatusManager : MonoBehaviour {
 		mainMenu.enabled = true;
 		asteroidSpawner.SetActive(false);
 		laserButton.SetActive(false);
+		startButton.SetActive(true);
+		creditsButton.SetActive(true);
+		quitButton.SetActive(true);
+		thrustButton.SetActive(false);
 		gameObject.SetActive(false);
 		MainMenu.activeGamePlaying = false;
 		ScoreManager.SendMessage("EndOfRound");
