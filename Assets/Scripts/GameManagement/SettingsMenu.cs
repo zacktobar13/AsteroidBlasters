@@ -4,102 +4,91 @@ using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour {
 
-	public GameObject[] mainMenuText, settingsMenuText;
-	Image settingsButtonImage; 
+	public GameObject[] settingsMenuText;
 	public Image soundToggleImage;
 	public Sprite settingsPressed, settingsUnpressed, soundOn, soundOff;
 	SoundManager soundManager;
 	GeneralSounds generalSounds;
-	bool settingsOn = false;
-	float lastSettingsTouch;
-	float settingsButtonCD = .3f;
 	bool soundEnabled = true;
+	public MainMenu mainMenu;
 
 	void OnEnable() {
-		settingsButtonImage = GetComponent<Image>();
 		soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
 		generalSounds = GetComponent<GeneralSounds>();
+		foreach(GameObject text in settingsMenuText) {
+			text.SetActive(true);
+		}
 	}
 	
 	void Update () {
-
 		foreach(Touch touch in Input.touches) {
-			if(touch.phase == TouchPhase.Ended) {
-				if(OnSettingsButton(touch.position) && Time.time >= lastSettingsTouch + settingsButtonCD) {
-					ToggleSettingsMenu();
-				}
-			}
-			if (touch.phase == TouchPhase.Ended) {
+			if (touch.phase == TouchPhase.Began) {
 				if (OnSoundToggler(touch.position)) {
 					ToggleSound();
 				} else if (OnEraseHighScore(touch.position)) {
-					// TODO
+					// TO DO
+				} else if (OnSettingsButton(touch.position)) {
+					ToggleSettingsMenu();
+				} else if (OnCreditsButton(touch.position)) {
+					ShowCredits();
 				}
 			}
-		}	
-	}	
+		}
+	}
 	
-		void ToggleSettingsMenu() {
-			settingsOn = !settingsOn;
-			lastSettingsTouch = Time.time;
-
-			if(settingsOn) {
-				settingsButtonImage.sprite = settingsPressed;
-				soundManager.PlaySound(generalSounds.Sounds[0], .15f);
-				foreach (GameObject text in mainMenuText) {
-					text.SetActive(false);
-				}
-
-				foreach(GameObject text in settingsMenuText) {
-					text.SetActive(true);
-				}
-			}
-			
-			else if(!settingsOn){
-				settingsButtonImage.sprite = settingsUnpressed;
-				soundManager.PlaySound(generalSounds.Sounds[1], .15f);
-				if(MainMenu.activeGamePlaying == false) {
-					foreach (GameObject text in mainMenuText) {
-						text.SetActive(true);
-					}
-				}
-
-				foreach(GameObject text in settingsMenuText) {
-					text.SetActive(false);
-				}
-			}	
+	void ToggleSettingsMenu() {
+		soundManager.PlaySound(generalSounds.Sounds[0], .15f);
+		foreach(GameObject text in settingsMenuText) {
+			text.SetActive(false);
 		}
+		mainMenu.enabled = true;
+		this.enabled = false;
+	}
 
-		bool OnSettingsButton(Vector2 touchPos) {
-			if (touchPos.x < Screen.width * .15 && touchPos.y > Screen.height * .5) {
+	bool OnSoundToggler(Vector2 touchPos) {
+		if (touchPos.x > Screen.width * .72 &&  touchPos.x < Screen.width * .86 && 
+			touchPos.y > Screen.height * .37 && touchPos.y < Screen.height * .57) {
+			return true;
+		}
+		return false;
+	}
+
+	bool OnEraseHighScore(Vector2 touchPosition) {
+		return false; // TO DO
+	}
+
+	bool OnSettingsButton(Vector2 touchPos) {
+		if (touchPos.x < Screen.width * .15 && touchPos.y > Screen.height * .5) {
+			return true;
+		}
+		return false;
+	}
+
+	/** FIX ME */
+	bool OnCreditsButton(Vector2 touchPos) {
+		if (touchPos.x > Screen.width * .35 && touchPos.x < Screen.width * .65 
+			&& touchPos.y > Screen.height * .35 && touchPos.y < Screen.height * .55) {
+				soundManager.PlaySound(generalSounds.Sounds[0], 1f);
 				return true;
-			}
-			return false;
-		}	
-
-		bool OnSoundToggler(Vector2 touchPos) {
-			if (touchPos.x > Screen.width * .72 &&  touchPos.x < Screen.width * .86 && 
-				touchPos.y > Screen.height * .37 && touchPos.y < Screen.height * .57) {
-				return true;
-			}
-			return false;
 		}
+		return false;
+	}
 
-		bool OnEraseHighScore(Vector2 touchPosition) {
-			return true;// TODO
+	void ShowCredits() {
+		// TO DO
+	}
+
+	void ToggleSound() {
+		soundEnabled = !soundEnabled;
+
+		if(soundEnabled == true) {
+			soundManager.DisableSound();
+			soundToggleImage.sprite = soundOff;
+		} else {
+			soundManager.EnableSound();
+			soundToggleImage.sprite = soundOn;
 		}
-
-		void ToggleSound() {
-			soundEnabled = !soundEnabled;
-
-			if(soundEnabled == true) {
-				soundManager.DisableSound();
-				soundToggleImage.sprite = soundOff;
-			} else {
-				soundManager.EnableSound();
-				soundToggleImage.sprite = soundOn;
-			}
-		}
+	}
 		
 }
 
