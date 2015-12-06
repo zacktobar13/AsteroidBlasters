@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -8,6 +9,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	bool isTouching;
 	bool mainMenu;
+	public Image thrustButton;
+	public Sprite thrustUnPressed, thrustPressed;
 
 	void Start () {
 		rigidBody = GetComponent<Rigidbody2D>();
@@ -18,7 +21,6 @@ public class PlayerMovement : MonoBehaviour {
 		transform.position = new Vector2(-7.6f, 0f);
 	}
 
-	// Update is called once per frame
 	void Update () {
 		foreach(Touch touch in Input.touches) {
 			if (touch.phase == TouchPhase.Began) {
@@ -41,6 +43,9 @@ public class PlayerMovement : MonoBehaviour {
 	void FixedUpdate() {
 		if (isTouching) {
 			rigidBody.AddForce(new Vector2(0, 20));
+			thrustButton.sprite = thrustPressed;
+		} else {
+			thrustButton.sprite = thrustUnPressed;
 		}
 	}
 

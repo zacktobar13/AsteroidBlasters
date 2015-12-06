@@ -5,7 +5,7 @@ public class PlayerStatusManager : MonoBehaviour {
 
 	public MainMenu mainMenu;
 	public GameObject[] activeObjects;
-	public GameObject playerPieces;
+	public GameObject playerPieces, shieldSprite;
 	GameObject ScoreManager;
 	public bool hasShield = false;
 	public SoundManager soundManager;
@@ -32,14 +32,14 @@ public class PlayerStatusManager : MonoBehaviour {
 
 	public void ActivateShield() {
 		hasShield = true;
-		Debug.Log("Activate Shield");
+		shieldSprite.SetActive(true);
 		soundManager.PlaySound(generalSounds.Sounds[0], 1f);
 		//Play shield sound.
 	}
 
 	public void DeActivateShield() {
 		hasShield = false;
-		Debug.Log("Shield Gone");
+		shieldSprite.SetActive(false);
 		//Lose shield sound.
 	}
 }
