@@ -9,8 +9,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	bool isTouching;
 	bool mainMenu;
-	public Image thrustButton;
-	public Sprite thrustUnPressed, thrustPressed;
+	public Image thrustButton, laserButton;
+	public Sprite buttonUnPressed, buttonPressed;
 
 	void Start () {
 		rigidBody = GetComponent<Rigidbody2D>();
@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour {
 			if (touch.phase == TouchPhase.Began) {
 				if (OnFireButton(touch.position)) {
 					gameObject.SendMessage("FireLaser");
+					//laserButton.sprite = buttonPressed;
 				} else if (!isTouching) {
 					isTouching = OnThrustButton(touch.position);
 				}
@@ -43,9 +44,9 @@ public class PlayerMovement : MonoBehaviour {
 	void FixedUpdate() {
 		if (isTouching) {
 			rigidBody.AddForce(new Vector2(0, 20));
-			thrustButton.sprite = thrustPressed;
+			thrustButton.sprite = buttonPressed;
 		} else {
-			thrustButton.sprite = thrustUnPressed;
+			thrustButton.sprite = buttonUnPressed;
 		}
 	}
 

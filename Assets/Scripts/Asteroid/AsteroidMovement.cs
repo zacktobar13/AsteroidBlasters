@@ -6,8 +6,8 @@ public class AsteroidMovement : MonoBehaviour {
 	float y;
 
 	void Start () {
-		x = Random.Range(-12f, -8f) * Time.deltaTime;
-		y = Random.Range(-5, 5) * Time.deltaTime;
+		x = Random.Range(-10f, -8f) * Time.deltaTime;
+		y = Random.Range(-4, 4) * Time.deltaTime;
 	}
 	
 	void Update () {
