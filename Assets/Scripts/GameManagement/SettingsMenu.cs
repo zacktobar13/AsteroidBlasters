@@ -5,13 +5,13 @@ using UnityEngine.UI;
 public class SettingsMenu : MonoBehaviour {
 
 	public GameObject[] settingsMenuText;
-	public GameObject creditsMenu, backButton;
+	public GameObject creditsMenu, backButton, confirmPage, dataDeletedText;
 	public Image soundToggleImage;
 	public Sprite settingsPressed, settingsUnpressed, soundOn, soundOff;
 	SoundManager soundManager;
 	GeneralSounds generalSounds;
 	bool soundEnabled = true;
-	bool creditsEnabled = false;
+	bool creditsEnabled, confirmPageEnabled = false;
 	public MainMenu mainMenu;
 
 	void OnEnable() {
@@ -28,9 +28,13 @@ public class SettingsMenu : MonoBehaviour {
 				if (OnSoundToggler(touch.position)) {
 					ToggleSound();
 				} else if (OnEraseHighScore(touch.position)) {
-					// TO DO
+					ShowConfirmPage();
 				} else if (OnSettingsButton(touch.position)) {
 					ToggleSettingsMenu();
+				} else if (OnYesButton(touch.position)) {
+					StartCoroutine("EraseHighScore");
+				} else if (OnNoButton(touch.position)) {
+					NoButtonBackOut();
 				} else if (OnCreditsButton(touch.position)) {
 					ShowCredits();
 				}
@@ -55,8 +59,12 @@ public class SettingsMenu : MonoBehaviour {
 		return false;
 	}
 
-	bool OnEraseHighScore(Vector2 touchPosition) {
-		return false; // TO DO
+	bool OnEraseHighScore(Vector2 touchPos) {
+		if (!confirmPageEnabled && touchPos.x > Screen.width * .2 && touchPos.x < Screen.width * .83 
+			 && touchPos.y > Screen.height * .17 && touchPos.y < Screen.height * .31) {
+				return true;
+		}
+		return false;
 	}
 
 	bool OnSettingsButton(Vector2 touchPos) {
@@ -69,6 +77,22 @@ public class SettingsMenu : MonoBehaviour {
 	bool OnCreditsButton(Vector2 touchPos) {
 		if (touchPos.x > Screen.width * .8
 			 && touchPos.y < Screen.height * .08) {
+				return true;
+		}
+		return false;
+	}
+
+	bool OnYesButton(Vector2 touchPos) {
+		if (confirmPageEnabled && touchPos.x < Screen.width * .4 && touchPos.x > Screen.width * .15
+			 && touchPos.y < Screen.height * .26 && touchPos.y > Screen.height * .13) {
+				return true;
+		}
+		return false;
+	}
+
+	bool OnNoButton(Vector2 touchPos) {
+		if (confirmPageEnabled && touchPos.x < Screen.width * .84 && touchPos.x > Screen.width * .6
+			 && touchPos.y < Screen.height * .3 && touchPos.y > Screen.height * .17) {
 				return true;
 		}
 		return false;
@@ -106,6 +130,47 @@ public class SettingsMenu : MonoBehaviour {
 			soundManager.EnableSound();
 			soundToggleImage.sprite = soundOn;
 		}
+	}
+
+	//TO DO
+	IEnumerator EraseHighScore(){
+		confirmPageEnabled = false;
+		confirmPage.SetActive(false);
+		dataDeletedText.SetActive(true);
+		Debug.Log("High score erased. But not really.");
+		yield return new WaitForSeconds(1f);
+		dataDeletedText.SetActive(false);
+		
+		foreach(GameObject text in settingsMenuText) {
+				text.SetActive(true);
+		}
+	}
+
+	void ShowConfirmPage() {
+		confirmPageEnabled = !confirmPageEnabled;
+
+		if(confirmPageEnabled) {
+			confirmPage.SetActive(true);
+
+			foreach(GameObject text in settingsMenuText) {
+				text.SetActive(false);
+			}
+		} else {
+			confirmPage.SetActive(false);
+
+			foreach(GameObject text in settingsMenuText) {
+				text.SetActive(true);
+			}
+		}
+	}
+
+	void NoButtonBackOut() {
+		confirmPageEnabled = false;
+		confirmPage.SetActive(false);
+
+		foreach(GameObject text in settingsMenuText) {
+				text.SetActive(true);
+			}
 	}
 		
 }
