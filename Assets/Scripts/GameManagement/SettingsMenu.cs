@@ -5,11 +5,13 @@ using UnityEngine.UI;
 public class SettingsMenu : MonoBehaviour {
 
 	public GameObject[] settingsMenuText;
+	public GameObject creditsMenu, backButton;
 	public Image soundToggleImage;
 	public Sprite settingsPressed, settingsUnpressed, soundOn, soundOff;
 	SoundManager soundManager;
 	GeneralSounds generalSounds;
 	bool soundEnabled = true;
+	bool creditsEnabled = false;
 	public MainMenu mainMenu;
 
 	void OnEnable() {
@@ -64,18 +66,34 @@ public class SettingsMenu : MonoBehaviour {
 		return false;
 	}
 
-	/** FIX ME */
 	bool OnCreditsButton(Vector2 touchPos) {
-		if (touchPos.x > Screen.width * .35 && touchPos.x < Screen.width * .65 
-			&& touchPos.y > Screen.height * .35 && touchPos.y < Screen.height * .55) {
-				soundManager.PlaySound(generalSounds.Sounds[0], 1f);
+		if (touchPos.x > Screen.width * .8
+			 && touchPos.y < Screen.height * .08) {
 				return true;
 		}
 		return false;
 	}
 
 	void ShowCredits() {
-		// TO DO
+		creditsEnabled = !creditsEnabled;
+
+		if(creditsEnabled) {
+			soundManager.PlaySound(generalSounds.Sounds[0], 1f);
+
+			foreach(GameObject text in settingsMenuText) {
+				text.SetActive(false);
+			}
+			backButton.SetActive(true);
+			creditsMenu.SetActive(true);
+		} else {
+			soundManager.PlaySound(generalSounds.Sounds[0], 1f);
+
+			foreach(GameObject text in settingsMenuText) {
+				text.SetActive(true);
+			}
+			backButton.SetActive(false);
+			creditsMenu.SetActive(false);
+		}
 	}
 
 	void ToggleSound() {
