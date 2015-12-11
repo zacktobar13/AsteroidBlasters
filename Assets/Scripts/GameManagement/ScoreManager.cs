@@ -43,6 +43,14 @@ public class ScoreManager : MonoBehaviour {
 		File.WriteAllLines(filePath, temp);
 	}
 
+	public void resetHighScore() {
+		string[] temp = {"0"};
+		File.WriteAllLines(filePath, temp);
+		highestScore = 0;
+		previousRoundsScore = 0;
+		scoreTextUI.text = MainMenuScore();
+	}
+
 	IEnumerator ShowHighScoreText(int seconds) {
 		newHighScore.text = "NEW HIGH SCORE!";
 		yield return new WaitForSeconds(seconds);
