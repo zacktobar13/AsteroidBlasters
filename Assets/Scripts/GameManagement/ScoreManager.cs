@@ -10,7 +10,6 @@ public class ScoreManager : MonoBehaviour {
 	string filePath;
 	bool firstHighScore = true;
 
-	/* This is pulled from a file */
 	int highestScore;
 
 	public Text scoreTextUI, newHighScore;
