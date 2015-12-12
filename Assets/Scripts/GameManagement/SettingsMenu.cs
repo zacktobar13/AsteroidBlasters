@@ -76,7 +76,7 @@ public class SettingsMenu : MonoBehaviour {
     }
 
     bool OnCreditsButton(Vector2 touchPos) {
-        if (touchPos.x > Screen.width * .8
+        if (!confirmPageEnabled && touchPos.x > Screen.width * .8
              && touchPos.y < Screen.height * .08) {
                 return true;
         }

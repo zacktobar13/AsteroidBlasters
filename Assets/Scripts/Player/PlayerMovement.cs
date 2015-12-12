@@ -26,7 +26,8 @@ public class PlayerMovement : MonoBehaviour {
 			if (touch.phase == TouchPhase.Began) {
 				if (OnFireButton(touch.position)) {
 					gameObject.SendMessage("FireLaser");
-					laserButton.sprite = buttonPressed;
+					StopAllCoroutines();
+					StartCoroutine("FireButtonSpriteChange");
 				} else if (!isTouching) {
 					isTouching = OnThrustButton(touch.position);
 				}
@@ -62,5 +63,11 @@ public class PlayerMovement : MonoBehaviour {
 			return true;
 		}
 		return false;
+	}
+
+	IEnumerator FireButtonSpriteChange() {
+		laserButton.sprite = buttonPressed;
+		yield return new WaitForSeconds(.15f);
+		laserButton.sprite = buttonUnPressed;
 	}
 }
