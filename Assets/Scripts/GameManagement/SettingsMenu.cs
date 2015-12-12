@@ -53,7 +53,7 @@ public class SettingsMenu : MonoBehaviour {
     }
 
     bool OnSoundToggler(Vector2 touchPos) {
-        if (touchPos.x > Screen.width * .72 &&  touchPos.x < Screen.width * .86 && 
+        if (!creditsEnabled && !confirmPageEnabled && touchPos.x > Screen.width * .72 &&  touchPos.x < Screen.width * .86 && 
             touchPos.y > Screen.height * .37 && touchPos.y < Screen.height * .57) {
             return true;
         }
@@ -61,7 +61,7 @@ public class SettingsMenu : MonoBehaviour {
     }
 
     bool OnEraseHighScore(Vector2 touchPos) {
-        if (!confirmPageEnabled && touchPos.x > Screen.width * .2 && touchPos.x < Screen.width * .83 
+        if (!creditsEnabled && !confirmPageEnabled && touchPos.x > Screen.width * .2 && touchPos.x < Screen.width * .83 
              && touchPos.y > Screen.height * .17 && touchPos.y < Screen.height * .31) {
                 return true;
         }
@@ -69,7 +69,7 @@ public class SettingsMenu : MonoBehaviour {
     }
 
     bool OnSettingsButton(Vector2 touchPos) {
-        if (!confirmPageEnabled && touchPos.x < Screen.width * .15 && touchPos.y > Screen.height * .5) {
+        if (!creditsEnabled && !confirmPageEnabled && touchPos.x < Screen.width * .15 && touchPos.y > Screen.height * .5) {
             return true;
         }
         return false;
