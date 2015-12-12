@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
 
 	public GameObject[] startOfGameObjects;
 	public GameObject[] menuText;
+	public Image settingsButton;
+	public Sprite settingsButtonPressed;
 	public static bool activeGamePlaying = false;
 	public SoundManager soundManager;
 	public GeneralSounds generalSounds;
@@ -38,7 +41,7 @@ public class MainMenu : MonoBehaviour {
 	bool OnStartButton(Vector2 touchPos) {
 		if (touchPos.x > Screen.width * .4 && touchPos.x < Screen.width * .6
 			&& touchPos.y > Screen.height * .35 && touchPos.y < Screen.height * .55) {
-				soundManager.PlaySound(generalSounds.Sounds[0], 1f);
+				soundManager.PlaySound(generalSounds.Sounds[0]);
 				return true;
 		}
 		return false;
@@ -47,7 +50,7 @@ public class MainMenu : MonoBehaviour {
 	bool OnQuitButton(Vector2 touchPos) {
 		if (touchPos.x > Screen.width * .4 && touchPos.x < Screen.width * .6
 			&& touchPos.y > Screen.height * .15 && touchPos.y < Screen.height * .35) {
-				soundManager.PlaySound(generalSounds.Sounds[0], 1f);
+				soundManager.PlaySound(generalSounds.Sounds[0]);
 				return true;
 		}
 		return false;
@@ -74,6 +77,7 @@ public class MainMenu : MonoBehaviour {
 		foreach (GameObject text in menuText) {
 			text.SetActive(false);
 		}
+		settingsButton.sprite = settingsButtonPressed;
 		settingsMenu.enabled = true;
 		this.enabled = false;
 	}

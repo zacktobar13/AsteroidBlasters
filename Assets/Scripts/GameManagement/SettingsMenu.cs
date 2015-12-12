@@ -6,8 +6,8 @@ public class SettingsMenu : MonoBehaviour {
 
     public GameObject[] settingsMenuText;
     public GameObject creditsMenu, backButton, confirmPage, dataDeletedText;
-    public Image soundToggleImage;
-    public Sprite settingsPressed, settingsUnpressed, soundOn, soundOff;
+    public Image soundToggleImage, settingsButton;
+    public Sprite soundOn, soundOff, settingsButtonUnpressed;
     public ScoreManager scoreManager;
     SoundManager soundManager;
     GeneralSounds generalSounds;
@@ -18,6 +18,7 @@ public class SettingsMenu : MonoBehaviour {
     void OnEnable() {
         soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         generalSounds = GetComponent<GeneralSounds>();
+        soundManager.PlaySound(generalSounds.Sounds[0]);
         foreach(GameObject text in settingsMenuText) {
             text.SetActive(true);
         }
@@ -44,12 +45,13 @@ public class SettingsMenu : MonoBehaviour {
     }
     
     void ToggleSettingsMenu() {
-        soundManager.PlaySound(generalSounds.Sounds[0], .15f);
+        soundManager.PlaySound(generalSounds.Sounds[0]);
         foreach(GameObject text in settingsMenuText) {
             text.SetActive(false);
         }
         mainMenu.enabled = true;
         this.enabled = false;
+        settingsButton.sprite = settingsButtonUnpressed;
     }
 
     bool OnSoundToggler(Vector2 touchPos) {
@@ -103,7 +105,7 @@ public class SettingsMenu : MonoBehaviour {
         creditsEnabled = !creditsEnabled;
 
         if(creditsEnabled) {
-            soundManager.PlaySound(generalSounds.Sounds[0], 1f);
+            soundManager.PlaySound(generalSounds.Sounds[0]);
 
             foreach(GameObject text in settingsMenuText) {
                 text.SetActive(false);
@@ -111,7 +113,7 @@ public class SettingsMenu : MonoBehaviour {
             backButton.SetActive(true);
             creditsMenu.SetActive(true);
         } else {
-            soundManager.PlaySound(generalSounds.Sounds[0], 1f);
+            soundManager.PlaySound(generalSounds.Sounds[0]);
 
             foreach(GameObject text in settingsMenuText) {
                 text.SetActive(true);
@@ -137,6 +139,7 @@ public class SettingsMenu : MonoBehaviour {
         confirmPageEnabled = false;
         confirmPage.SetActive(false);
         dataDeletedText.SetActive(true);
+        soundManager.PlaySound(generalSounds.Sounds[0]);
         yield return new WaitForSeconds(1f);
         dataDeletedText.SetActive(false);
         
@@ -151,12 +154,14 @@ public class SettingsMenu : MonoBehaviour {
 
         if(confirmPageEnabled) {
             confirmPage.SetActive(true);
+            soundManager.PlaySound(generalSounds.Sounds[0]);
 
             foreach(GameObject text in settingsMenuText) {
                 text.SetActive(false);
             }
         } else {
             confirmPage.SetActive(false);
+            soundManager.PlaySound(generalSounds.Sounds[0]);
 
             foreach(GameObject text in settingsMenuText) {
                 text.SetActive(true);
@@ -167,6 +172,7 @@ public class SettingsMenu : MonoBehaviour {
     void NoButtonBackOut() {
         confirmPageEnabled = false;
         confirmPage.SetActive(false);
+        soundManager.PlaySound(generalSounds.Sounds[0]);
 
         foreach(GameObject text in settingsMenuText) {
                 text.SetActive(true);
