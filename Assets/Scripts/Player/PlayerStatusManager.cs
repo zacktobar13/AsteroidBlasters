@@ -33,13 +33,13 @@ public class PlayerStatusManager : MonoBehaviour {
 	public void ActivateShield() {
 		hasShield = true;
 		shieldSprite.SetActive(true);
-		soundManager.PlaySound(generalSounds.Sounds[0], 1f);
-		//Play shield sound.
+		soundManager.PlaySound(generalSounds.Sounds[0]);
 	}
 
 	public void DeActivateShield() {
 		hasShield = false;
 		shieldSprite.SetActive(false);
-		//Lose shield sound.
+		soundManager.PlaySound(generalSounds.Sounds[1]);
+		soundManager.PlaySound(generalSounds.Sounds[2]);
 	}
 }

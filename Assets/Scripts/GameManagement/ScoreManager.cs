@@ -30,14 +30,14 @@ public class ScoreManager : MonoBehaviour {
 		scoreTextUI.text = CurrentScore();
 	}
 
-	public void EndOfRound() {
+	private void EndOfRound() {
 		if (currentScore > highestScore) {
 			highestScore = currentScore;
 		}
 		firstHighScore = true;
 		previousRoundsScore = currentScore;
-		currentScore = 0;
 		scoreTextUI.text = MainMenuScore();
+		currentScore = 0;
 		string[] temp = {""+highestScore};
 		File.WriteAllLines(filePath, temp);
 	}
