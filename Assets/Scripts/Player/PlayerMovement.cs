@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	void FixedUpdate() {
 		if (isTouching) {
-			rigidBody.AddForce(new Vector2(0, 20));
+			rigidBody.AddForce(new Vector2(0, 17));
 			thrustButton.sprite = buttonPressed;
 		} else {
 			thrustButton.sprite = buttonUnPressed;
