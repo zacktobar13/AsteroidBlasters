@@ -5,10 +5,11 @@ public class KillZone : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.tag == "Player") {
-			other.gameObject.SendMessage("GetRekt");
-			if(other.gameObject.hasShield) {
+			PlayerStatusManager playerStatus = other.gameObject.GetComponent<PlayerStatusManager>();
+			if(playerStatus.hasShield) {
 				this.SendMessage("GetRekt");
 			}
+			other.gameObject.SendMessage("GetRekt");
 		}
 	}
 }
