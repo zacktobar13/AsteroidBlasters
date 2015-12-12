@@ -69,7 +69,7 @@ public class SettingsMenu : MonoBehaviour {
     }
 
     bool OnSettingsButton(Vector2 touchPos) {
-        if (touchPos.x < Screen.width * .15 && touchPos.y > Screen.height * .5) {
+        if (!confirmPageEnabled && touchPos.x < Screen.width * .15 && touchPos.y > Screen.height * .5) {
             return true;
         }
         return false;

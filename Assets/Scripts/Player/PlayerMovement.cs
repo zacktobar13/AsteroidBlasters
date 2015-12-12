@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour {
 			if (touch.phase == TouchPhase.Began) {
 				if (OnFireButton(touch.position)) {
 					gameObject.SendMessage("FireLaser");
-					//laserButton.sprite = buttonPressed;
+					laserButton.sprite = buttonPressed;
 				} else if (!isTouching) {
 					isTouching = OnThrustButton(touch.position);
 				}
