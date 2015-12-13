@@ -22,6 +22,9 @@ public class MainMenu : MonoBehaviour {
 		foreach (GameObject asteroid in GameObject.FindGameObjectsWithTag("Asteroid")) {
 			Destroy(asteroid);
 		}
+		foreach (GameObject shield in GameObject.FindGameObjectsWithTag("Shield")) {
+			Destroy(shield);
+		}
 	}
 	
 	void Update () {

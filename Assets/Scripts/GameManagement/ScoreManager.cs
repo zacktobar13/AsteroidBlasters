@@ -55,7 +55,7 @@ public class ScoreManager : MonoBehaviour {
 
 	IEnumerator ShowHighScoreText(int seconds) {
 		newHighScore.text = "NEW HIGH SCORE!";
-		soundManager.PlaySound(generalSounds.Sounds[0], .5f);
+		soundManager.PlaySound(generalSounds.Sounds[0]);
 		yield return new WaitForSeconds(seconds);
 		newHighScore.text = "";
 	}

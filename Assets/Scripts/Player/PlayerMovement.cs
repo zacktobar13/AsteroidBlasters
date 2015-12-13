@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour {
 		transform.position = new Vector2(-7.6f, 0f);
 		firstMove = true;
 		rigidBody.isKinematic = true;
+		laserButton.sprite = buttonUnPressed;
 	}
 
 	void Update () {
