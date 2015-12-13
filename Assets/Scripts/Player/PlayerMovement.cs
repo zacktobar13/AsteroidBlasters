@@ -11,14 +11,18 @@ public class PlayerMovement : MonoBehaviour {
 	bool mainMenu;
 	public Image thrustButton, laserButton;
 	public Sprite buttonUnPressed, buttonPressed;
+	bool firstMove;
 
 	void Start () {
-		rigidBody = GetComponent<Rigidbody2D>();
+		rigidBody = this.GetComponent<Rigidbody2D>();
 	}
 
 	void OnEnable() {
+		rigidBody = this.GetComponent<Rigidbody2D>();
 		isTouching = false;
 		transform.position = new Vector2(-7.6f, 0f);
+		firstMove = true;
+		rigidBody.isKinematic = true;
 	}
 
 	void Update () {
@@ -44,6 +48,10 @@ public class PlayerMovement : MonoBehaviour {
 
 	void FixedUpdate() {
 		if (isTouching) {
+			if (firstMove) {
+				rigidBody.isKinematic = false;
+				firstMove = false;
+			}
 			rigidBody.AddForce(new Vector2(0, 16));
 			thrustButton.sprite = buttonPressed;
 		} else {
@@ -56,6 +64,10 @@ public class PlayerMovement : MonoBehaviour {
 			return true;
 		}
 		return false;
+	}
+
+	public bool getFirstMove() {
+		return firstMove;
 	}
 
 	bool OnThrustButton(Vector2 touchPos) {
