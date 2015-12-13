@@ -9,12 +9,15 @@ public class ScoreManager : MonoBehaviour {
 	int currentScore, previousRoundsScore;
 	string filePath;
 	bool firstHighScore = true;
+	GeneralSounds generalSounds;
+	public SoundManager soundManager;
 
 	int highestScore;
 
 	public Text scoreTextUI, newHighScore;
 
 	void Start () {
+		generalSounds = GetComponent<GeneralSounds>();
 		currentScore = 0;
 		filePath = Application.persistentDataPath + "/score.txt";
 		highestScore = PullScoreFromFile();
@@ -52,6 +55,7 @@ public class ScoreManager : MonoBehaviour {
 
 	IEnumerator ShowHighScoreText(int seconds) {
 		newHighScore.text = "NEW HIGH SCORE!";
+		soundManager.PlaySound(generalSounds.Sounds[0], .5f);
 		yield return new WaitForSeconds(seconds);
 		newHighScore.text = "";
 	}
