@@ -21,6 +21,8 @@ public class SoundManager : MonoBehaviour {
         	}
         } else {
         	WriteSoundToFile(true);
+        	EnableSound();
+        	soundEnabled = true;
         }
 	}
 	
