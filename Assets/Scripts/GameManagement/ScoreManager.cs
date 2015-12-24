@@ -82,6 +82,7 @@ public class ScoreManager : MonoBehaviour {
 	string CurrentScore() {
 		return "Current Score: " + currentScore;
 	}
+
 	string MainMenuScore() {
 		return "High Score: " + highestScore + "    Last Score: " + previousRoundsScore; 
 	}
