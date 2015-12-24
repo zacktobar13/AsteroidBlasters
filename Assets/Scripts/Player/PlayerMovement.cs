@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour {
 		isTouching = false;
 		transform.position = new Vector2(-7.6f, 0f);
 		rigidBody.isKinematic = true;
+		thrustButton.sprite = buttonUnPressed;
 		laserButton.sprite = buttonUnPressed;
 		StartCoroutine("GameStartCountdown");
 	}
@@ -35,7 +36,7 @@ public class PlayerMovement : MonoBehaviour {
 			if (touch.phase == TouchPhase.Began) {
 				if (OnFireButton(touch.position)) {
 					gameObject.SendMessage("FireLaser");
-					StopAllCoroutines();
+					StopCoroutine("FireButtonSpriteChange");
 					StartCoroutine("FireButtonSpriteChange");
 				} else if (!isTouching) {
 					isTouching = OnThrustButton(touch.position);
@@ -48,6 +49,14 @@ public class PlayerMovement : MonoBehaviour {
 		}
 		if (Input.touches.Length == 0) {
 			isTouching = false;
+		} else if (Input.touches.Length == 1) {
+			if (!OnThrustButton(Input.touches[0].position)) {
+				isTouching = false;
+			}
+		} else if (Input.touches.Length == 2) {
+			if (!OnThrustButton(Input.touches[0].position) && !OnThrustButton(Input.touches[1].position)) {
+				isTouching = false;
+			}
 		}
 	}
 
@@ -96,7 +105,6 @@ public class PlayerMovement : MonoBehaviour {
 		yield return new WaitForSeconds(.6f);
 		soundManager.PlaySound(generalSounds.Sounds[4]);
 		countdown.text = "Go!";
-
 		canMove = true;
 		rigidBody.isKinematic = false;
 		yield return new WaitForSeconds(.6f);
