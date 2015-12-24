@@ -9,9 +9,10 @@ public class UserLogIn : MonoBehaviour {
 	public Text debugText;
 
 	void Start () {
+		LogIn();
+	}
 
-		debugText.text = "Attempting to log in...";
-
+	public void LogIn() {
 		Social.localUser.Authenticate((bool success) => {
        		if(success) {
        			debugText.text = "Login Success";

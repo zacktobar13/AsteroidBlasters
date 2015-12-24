@@ -87,14 +87,15 @@ public class ScoreManager : MonoBehaviour {
 	}
 
 	void UpdateLeaderboard(int score) {
-		Social.ReportScore(score, leaderboard, (bool success) => {
-        	if(success) {
-        		debugText.text = "Score posted to leaderboard";
-        		Social.ShowLeaderboardUI();
-        	} else {
-        		debugText.text = "Score failed to post to leaderboard";
-        	}
-    	});
-
+		if(PlayGamesPlatform.Instance.IsAuthenticated()) {
+			Social.ReportScore(score, leaderboard, (bool success) => {
+	        	if(success) {
+	        		debugText.text = "Score posted to leaderboard";
+	        		PlayGamesPlatform.Instance.ShowLeaderboardUI(leaderboard);
+	        	} else {
+	        		debugText.text = "Score failed to post to leaderboard";
+	        	}
+	    	});
+		}
 	}
 }

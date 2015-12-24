@@ -10,16 +10,19 @@ public class PlayerStatusManager : MonoBehaviour {
 	public bool hasShield = false;
 	public SoundManager soundManager;
 	GeneralSounds generalSounds;
+	PlayerMovement playerMovement;
 
 	void Start() {
 		ScoreManager = GameObject.FindWithTag("ScoreManager");
 		generalSounds = gameObject.GetComponent<GeneralSounds>();
+		playerMovement = gameObject.GetComponent<PlayerMovement>();
 	}
 
 	public void GetRekt() {
 		if(!hasShield) {
 			Destroy(Instantiate(playerPieces, transform.position, transform.rotation), 1.3f);
 			mainMenu.enabled = true;
+			playerMovement.canMove = false;
 			foreach (GameObject obj in activeObjects) {
 				obj.SetActive(false);
 			}

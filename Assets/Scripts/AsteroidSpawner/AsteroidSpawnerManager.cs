@@ -8,10 +8,8 @@ public class AsteroidSpawnerManager : MonoBehaviour {
 	public GameObject ScoreManager;
 	GameObject[] asteroidSpawners;
 	public GameObject player;
-	PlayerMovement playerMovement;
 
 	void Start () {
-		playerMovement = player.GetComponent<PlayerMovement>();
 		asteroidSpawners = GameObject.FindGameObjectsWithTag("AsteroidSpawner");
 		ScoreManager = GameObject.FindWithTag("ScoreManager");
 	}
@@ -27,10 +25,7 @@ public class AsteroidSpawnerManager : MonoBehaviour {
 	}
 
 	void AddPoints() {
-		if (!playerMovement.getFirstMove()) {
-			ScoreManager.SendMessage("AddPoints", 3);
-		}
-		
+		ScoreManager.SendMessage("AddPoints", 3);
 	}
 	
 	void Update () {

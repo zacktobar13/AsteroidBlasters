@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour {
 	bool mainMenu;
 	public Image thrustButton, laserButton;
 	public Sprite buttonUnPressed, buttonPressed;
-	bool firstMove;
+	public bool canMove = false;
 
 	void Start () {
 		rigidBody = this.GetComponent<Rigidbody2D>();
@@ -21,9 +21,9 @@ public class PlayerMovement : MonoBehaviour {
 		rigidBody = this.GetComponent<Rigidbody2D>();
 		isTouching = false;
 		transform.position = new Vector2(-7.6f, 0f);
-		firstMove = true;
 		rigidBody.isKinematic = true;
 		laserButton.sprite = buttonUnPressed;
+		StartCoroutine("GameStartCountdown");
 	}
 
 	void Update () {
@@ -48,27 +48,23 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		if (isTouching) {
-			if (firstMove) {
-				rigidBody.isKinematic = false;
-				firstMove = false;
+		if(canMove) {
+			if (isTouching) {
+				rigidBody.AddForce(new Vector2(0, 16));
+				thrustButton.sprite = buttonPressed;
+			} else {
+				thrustButton.sprite = buttonUnPressed;
 			}
-			rigidBody.AddForce(new Vector2(0, 16));
-			thrustButton.sprite = buttonPressed;
-		} else {
-			thrustButton.sprite = buttonUnPressed;
 		}
 	}
 
 	bool OnFireButton(Vector2 touchPos) {
-		if (touchPos.x > Screen.width * .7 && touchPos.y < Screen.height * .3) {
-			return true;
-		}
-		return false;
-	}
-
-	public bool getFirstMove() {
-		return firstMove;
+			if (touchPos.x > Screen.width * .7 && touchPos.y < Screen.height * .3) {
+				if(canMove) {
+					return true;
+				}
+			}
+			return false;
 	}
 
 	bool OnThrustButton(Vector2 touchPos) {
@@ -82,5 +78,18 @@ public class PlayerMovement : MonoBehaviour {
 		laserButton.sprite = buttonPressed;
 		yield return new WaitForSeconds(.15f);
 		laserButton.sprite = buttonUnPressed;
+	}
+
+	IEnumerator GameStartCountdown() {
+		Debug.Log("3");
+		yield return new WaitForSeconds(.6f);
+		Debug.Log("2");
+		yield return new WaitForSeconds(.6f);
+		Debug.Log("1");
+		yield return new WaitForSeconds(.6f);
+		Debug.Log("Go!");
+
+		canMove = true;
+		rigidBody.isKinematic = false;
 	}
 }
