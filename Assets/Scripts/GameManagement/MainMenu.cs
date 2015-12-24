@@ -44,7 +44,6 @@ public class MainMenu : MonoBehaviour {
 	bool OnStartButton(Vector2 touchPos) {
 		if (touchPos.x > Screen.width * .4 && touchPos.x < Screen.width * .6
 			&& touchPos.y > Screen.height * .35 && touchPos.y < Screen.height * .55) {
-				soundManager.PlaySound(generalSounds.Sounds[0]);
 				return true;
 		}
 		return false;

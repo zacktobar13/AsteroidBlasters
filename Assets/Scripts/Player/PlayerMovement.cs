@@ -12,12 +12,16 @@ public class PlayerMovement : MonoBehaviour {
 	public Image thrustButton, laserButton;
 	public Sprite buttonUnPressed, buttonPressed;
 	public bool canMove = false;
+	public SoundManager soundManager;
+	public GeneralSounds generalSounds;
+	public Text countdown;
 
 	void Start () {
 		rigidBody = this.GetComponent<Rigidbody2D>();
 	}
 
 	void OnEnable() {
+		countdown.text = "";
 		rigidBody = this.GetComponent<Rigidbody2D>();
 		isTouching = false;
 		transform.position = new Vector2(-7.6f, 0f);
@@ -81,15 +85,21 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	IEnumerator GameStartCountdown() {
-		Debug.Log("3");
+		soundManager.PlaySound(generalSounds.Sounds[3]);
+		countdown.text = "3";
 		yield return new WaitForSeconds(.6f);
-		Debug.Log("2");
+		soundManager.PlaySound(generalSounds.Sounds[3]);
+		countdown.text = "2";
 		yield return new WaitForSeconds(.6f);
-		Debug.Log("1");
+		soundManager.PlaySound(generalSounds.Sounds[3]);
+		countdown.text = "1";
 		yield return new WaitForSeconds(.6f);
-		Debug.Log("Go!");
+		soundManager.PlaySound(generalSounds.Sounds[4]);
+		countdown.text = "Go!";
 
 		canMove = true;
 		rigidBody.isKinematic = false;
+		yield return new WaitForSeconds(.6f);
+		countdown.text = "";
 	}
 }
