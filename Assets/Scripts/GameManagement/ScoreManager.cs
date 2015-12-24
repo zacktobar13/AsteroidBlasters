@@ -3,11 +3,15 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using UnityEngine.UI;
+using GooglePlayGames;
+using UnityEngine.SocialPlatforms;
 
 public class ScoreManager : MonoBehaviour {
 
+	public Text debugText;
 	int currentScore, previousRoundsScore;
 	string filePath;
+	string leaderboard = "CgkI9IT9xcoVEAIQAQ";
 	bool firstHighScore = true;
 	GeneralSounds generalSounds;
 	public SoundManager soundManager;
@@ -36,6 +40,7 @@ public class ScoreManager : MonoBehaviour {
 	private void EndOfRound() {
 		if (currentScore > highestScore) {
 			highestScore = currentScore;
+			UpdateLeaderboard(highestScore);
 		}
 		firstHighScore = true;
 		previousRoundsScore = currentScore;
@@ -79,5 +84,17 @@ public class ScoreManager : MonoBehaviour {
 	}
 	string MainMenuScore() {
 		return "High Score: " + highestScore + "    Last Score: " + previousRoundsScore; 
+	}
+
+	void UpdateLeaderboard(int score) {
+		Social.ReportScore(score, leaderboard, (bool success) => {
+        	if(success) {
+        		debugText.text = "Score posted to leaderboard";
+        		Social.ShowLeaderboardUI();
+        	} else {
+        		debugText.text = "Score failed to post to leaderboard";
+        	}
+    	});
+
 	}
 }
