@@ -51,6 +51,10 @@ public class SettingsMenu : MonoBehaviour {
                 }
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            ToggleSettingsMenu();
+        }
     }
     
     void ToggleSettingsMenu() {

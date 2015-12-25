@@ -39,6 +39,10 @@ public class MainMenu : MonoBehaviour {
 				}
 			}
 		}	
+
+		if(Input.GetKeyDown(KeyCode.Escape)) {
+			Application.Quit();
+		}
 	}
 
 	bool OnStartButton(Vector2 touchPos) {
