@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using GooglePlayGames;
+using UnityEngine.SocialPlatforms;
 
 public class MainMenu : MonoBehaviour {
 
@@ -12,6 +14,7 @@ public class MainMenu : MonoBehaviour {
 	public SoundManager soundManager;
 	public GeneralSounds generalSounds;
 	public SettingsMenu settingsMenu;
+	string leaderboard = "CgkI9IT9xcoVEAIQAQ";
 
 	float lastSettingsTouch;
 
@@ -36,6 +39,12 @@ public class MainMenu : MonoBehaviour {
 					Application.Quit();
 				} else if (OnSettingsButton(touch.position)) {
 					EnableSettingsMenu();
+				} else if (OnLeaderboardButton(touch.position)) {
+					if(PlayGamesPlatform.Instance.IsAuthenticated()) {
+						PlayGamesPlatform.Instance.ShowLeaderboardUI(leaderboard);
+					} else {
+						Debug.Log("Must be logged in");
+					}
 				}
 			}
 		}	
@@ -54,13 +63,22 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	bool OnQuitButton(Vector2 touchPos) {
-		if (touchPos.x > Screen.width * .4 && touchPos.x < Screen.width * .6
-			&& touchPos.y > Screen.height * .15 && touchPos.y < Screen.height * .35) {
+		if (touchPos.x > Screen.width * .81
+			&& touchPos.y > Screen.height * .85) {
 				soundManager.PlaySound(generalSounds.Sounds[0]);
 				return true;
 		}
 		return false;
 	}
+
+	bool OnLeaderboardButton(Vector2 touchPos) {
+		if (touchPos.x > Screen.width * .29 && touchPos.x < Screen.width * .7
+			&& touchPos.y > Screen.height * .23 && touchPos.y < Screen.height * .36) {
+			soundManager.PlaySound(generalSounds.Sounds[0]);
+			return true;
+		}
+		return false;
+	}	
 
 	bool OnSettingsButton(Vector2 touchPos) {
 		if (touchPos.x < Screen.width * .15 && touchPos.y > Screen.height * .5) {
