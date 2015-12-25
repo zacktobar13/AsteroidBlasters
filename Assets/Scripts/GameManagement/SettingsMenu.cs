@@ -7,7 +7,7 @@ using System.Linq;
 public class SettingsMenu : MonoBehaviour {
 
     public GameObject[] settingsMenuText;
-    public GameObject creditsMenu, backButton, confirmPage, dataDeletedText;
+    public GameObject creditsMenu, backButton, confirmPage, dataDeletedText, scoreInfoText;
     public Image soundToggleImage, settingsButton;
     public Sprite soundOn, soundOff, settingsButtonUnpressed;
     public ScoreManager scoreManager;
@@ -53,7 +53,13 @@ public class SettingsMenu : MonoBehaviour {
         }
 
         if(Input.GetKeyDown(KeyCode.Escape)) {
-            ToggleSettingsMenu();
+            if(creditsEnabled) {
+                ShowCredits();
+            } else if(confirmPageEnabled) {
+                NoButtonBackOut();
+            } else {
+                ToggleSettingsMenu();
+            }
         }
     }
     
@@ -69,7 +75,7 @@ public class SettingsMenu : MonoBehaviour {
 
     bool OnSoundToggler(Vector2 touchPos) {
         if (!creditsEnabled && !confirmPageEnabled && touchPos.x > Screen.width * .72 &&  touchPos.x < Screen.width * .86 && 
-            touchPos.y > Screen.height * .37 && touchPos.y < Screen.height * .57) {
+            touchPos.y > Screen.height * .4 && touchPos.y < Screen.height * .57) {
             return true;
         }
         return false;
@@ -84,7 +90,7 @@ public class SettingsMenu : MonoBehaviour {
     }
 
     bool OnSettingsButton(Vector2 touchPos) {
-        if (!creditsEnabled && !confirmPageEnabled && touchPos.x < Screen.width * .15 && touchPos.y > Screen.height * .5) {
+        if (!creditsEnabled && !confirmPageEnabled && touchPos.x < Screen.width * .15 && touchPos.y > Screen.height * .85) {
             return true;
         }
         return false;
@@ -116,7 +122,7 @@ public class SettingsMenu : MonoBehaviour {
 
     void ShowCredits() {
         creditsEnabled = !creditsEnabled;
-
+        scoreInfoText.SetActive(false);
         if(creditsEnabled) {
             soundManager.PlaySound(generalSounds.Sounds[0]);
 
@@ -127,7 +133,7 @@ public class SettingsMenu : MonoBehaviour {
             creditsMenu.SetActive(true);
         } else {
             soundManager.PlaySound(generalSounds.Sounds[0]);
-
+            scoreInfoText.SetActive(true);
             foreach(GameObject text in settingsMenuText) {
                 text.SetActive(true);
             }

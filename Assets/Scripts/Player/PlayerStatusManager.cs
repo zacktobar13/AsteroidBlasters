@@ -11,6 +11,7 @@ public class PlayerStatusManager : MonoBehaviour {
 	public SoundManager soundManager;
 	GeneralSounds generalSounds;
 	PlayerMovement playerMovement;
+	public GameObject shieldText;
 
 	void Start() {
 		ScoreManager = GameObject.FindWithTag("ScoreManager");
@@ -34,6 +35,9 @@ public class PlayerStatusManager : MonoBehaviour {
 	}
 
 	public void ActivateShield() {
+		if(!hasShield) {
+			StartCoroutine("ShowShieldText");
+		}
 		hasShield = true;
 		shieldSprite.SetActive(true);
 		soundManager.PlaySound(generalSounds.Sounds[0]);
@@ -44,5 +48,11 @@ public class PlayerStatusManager : MonoBehaviour {
 		shieldSprite.SetActive(false);
 		soundManager.PlaySound(generalSounds.Sounds[1]);
 		soundManager.PlaySound(generalSounds.Sounds[2]);
+	}
+
+	IEnumerator ShowShieldText() {
+		shieldText.SetActive(true);
+		yield return new WaitForSeconds(2f);
+		shieldText.SetActive(false);
 	}
 }

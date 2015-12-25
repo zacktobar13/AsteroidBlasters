@@ -14,6 +14,7 @@ public class ScoreManager : MonoBehaviour {
 	bool firstHighScore = true;
 	GeneralSounds generalSounds;
 	public SoundManager soundManager;
+	public GameObject scorePostedText, scoreFailedText;
 
 	int highestScore;
 
@@ -47,6 +48,18 @@ public class ScoreManager : MonoBehaviour {
 		currentScore = 0;
 		string[] temp = {""+highestScore};
 		File.WriteAllLines(filePath, temp);
+	}
+
+	IEnumerator ShowScorePosted() {
+		scorePostedText.SetActive(true);
+		yield return new WaitForSeconds(2f);
+		scorePostedText.SetActive(false);
+	}
+
+	IEnumerator ShowScoreFailed() {
+		scoreFailedText.SetActive(true);
+		yield return new WaitForSeconds(2f);
+		scoreFailedText.SetActive(false);
 	}
 
 	public void resetHighScore() {
@@ -90,11 +103,13 @@ public class ScoreManager : MonoBehaviour {
 		if(PlayGamesPlatform.Instance.IsAuthenticated()) {
 			Social.ReportScore(score, leaderboard, (bool success) => {
 	        	if(success) {
-	        		PlayGamesPlatform.Instance.ShowLeaderboardUI(leaderboard);
+	        		StartCoroutine("ShowScorePosted");
 	        	} else {
-	        		//Whomp whomp.
+	        		StartCoroutine("ShowScoreFailed");
 	        	}
 	    	});
+		} else {
+			StartCoroutine("ShowScoreFailed");
 		}
 	}
 }

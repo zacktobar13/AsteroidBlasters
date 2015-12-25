@@ -5,6 +5,7 @@ using GooglePlayGames;
 using UnityEngine.SocialPlatforms;
 
 public class UserLogIn : MonoBehaviour {
+	public MainMenu mainMenu;
 
 	void Start () {
 		LogIn();
@@ -13,10 +14,9 @@ public class UserLogIn : MonoBehaviour {
 	public void LogIn() {
 		Social.localUser.Authenticate((bool success) => {
 			if(success) {
-				//Whoop whoop.
-				Debug.Log("log");
+				mainMenu.SendMessage("LogInSuccess");
 			} else {
-				//Whomp whomp.
+				mainMenu.SendMessage("FailedLogIn");
 			}
    	 	});
 	}
