@@ -12,6 +12,12 @@ public class UserLogIn : MonoBehaviour {
 
 	public void LogIn() {
 		Social.localUser.Authenticate((bool success) => {
+			if(success) {
+				//Whoop whoop.
+				Debug.Log("log");
+			} else {
+				//Whomp whomp.
+			}
    	 	});
 	}
 }

@@ -8,7 +8,6 @@ using UnityEngine.SocialPlatforms;
 
 public class ScoreManager : MonoBehaviour {
 
-	public Text debugText;
 	int currentScore, previousRoundsScore;
 	string filePath;
 	string leaderboard = "CgkI9IT9xcoVEAIQAQ";
@@ -91,10 +90,9 @@ public class ScoreManager : MonoBehaviour {
 		if(PlayGamesPlatform.Instance.IsAuthenticated()) {
 			Social.ReportScore(score, leaderboard, (bool success) => {
 	        	if(success) {
-	        		debugText.text = "Score posted to leaderboard";
 	        		PlayGamesPlatform.Instance.ShowLeaderboardUI(leaderboard);
 	        	} else {
-	        		debugText.text = "Score failed to post to leaderboard";
+	        		//Whomp whomp.
 	        	}
 	    	});
 		}

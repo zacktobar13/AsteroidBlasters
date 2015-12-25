@@ -107,7 +107,7 @@ namespace GooglePlayGames
                 svcSupport.CopyDependencies(deps, "Assets/Plugins/Android", HandleOverwriteConfirmation);
 
                 AssetDatabase.Refresh();
-                Debug.Log("Android Jar Dependencies: Resolution Complete");
+                //Debug.Log("Android Jar Dependencies: Resolution Complete");
             }
 #endif
         }
