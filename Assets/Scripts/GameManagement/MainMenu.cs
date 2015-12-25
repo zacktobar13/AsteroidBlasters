@@ -155,7 +155,7 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	bool OnLogInButton(Vector2 touchPos) {
-		if (touchPos.x > Screen.width * .37 && touchPos.x < Screen.width * .6 && touchPos.y < Screen.height * .1) {
+		if (touchPos.x > Screen.width * .34 && touchPos.x < Screen.width * .6 && touchPos.y < Screen.height * .12) {
 			return true;
 		}
 		return false;
