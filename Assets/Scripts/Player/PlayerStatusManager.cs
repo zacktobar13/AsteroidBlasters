@@ -24,6 +24,7 @@ public class PlayerStatusManager : MonoBehaviour {
 			Destroy(Instantiate(playerPieces, transform.position, transform.rotation), 1.3f);
 			mainMenu.enabled = true;
 			playerMovement.canMove = false;
+			shieldText.SetActive(false);
 			foreach (GameObject obj in activeObjects) {
 				obj.SetActive(false);
 			}
@@ -35,9 +36,7 @@ public class PlayerStatusManager : MonoBehaviour {
 	}
 
 	public void ActivateShield() {
-		if(!hasShield) {
-			StartCoroutine("ShowShieldText");
-		}
+		StartCoroutine("ShowShieldText");
 		hasShield = true;
 		shieldSprite.SetActive(true);
 		soundManager.PlaySound(generalSounds.Sounds[0]);

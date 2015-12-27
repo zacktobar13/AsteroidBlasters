@@ -17,7 +17,7 @@ public class AsteroidSpawnerManager : MonoBehaviour {
 	void OnEnable() {
 		totalTime = Time.time;
 		gameTime = Time.time - totalTime;
-		InvokeRepeating("AddPoints", 0, 1f);
+		InvokeRepeating("AddPoints", 3, 1f);
 	}
 
 	void OnDisable() {
