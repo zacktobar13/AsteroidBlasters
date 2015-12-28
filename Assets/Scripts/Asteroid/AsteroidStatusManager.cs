@@ -21,5 +21,14 @@ public class AsteroidStatusManager : MonoBehaviour {
 		Destroy(gameObject);
 		scoreManager.SendMessage("AddPoints", 5);
 	}
+
+	public void DeathByNuke() {
+		int chanceForShield = Random.Range(0, 100);
+		if(chanceForShield < shieldSpawnChance) {
+			Instantiate(shield, transform.position, transform.rotation);
+		}
+		scoreManager.SendMessage("AddPoints", 5);
+		Destroy(gameObject);
+	}
 	
 }
