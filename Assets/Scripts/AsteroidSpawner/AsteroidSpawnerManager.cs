@@ -29,9 +29,18 @@ public class AsteroidSpawnerManager : MonoBehaviour {
 	}
 	
 	void Update () {
-		gameTime = Time.time - totalTime;
 		if (ShouldSpawnAsteroid()) {
 			SpawnAsteroid();
+		}
+	}
+
+	void FixedUpdate() {
+		gameTime = Time.time - totalTime;
+		if (gameTime % 15 < 1) {
+			GameObject[] allAsteroids = GameObject.FindGameObjectsWithTag("Asteroid");
+			foreach (GameObject asteroid in allAsteroids) {
+				asteroid.SendMessage("GetRekt");
+			}
 		}
 	}
 
@@ -40,7 +49,7 @@ public class AsteroidSpawnerManager : MonoBehaviour {
 	}
 
 	bool ShouldSpawnAsteroid() {
-		return isEqual(Mathf.Cos(gameTime * 3f) / (gameTime * 1.5f), 0f, .002f);
+		return isEqual(Mathf.Cos(gameTime * 3f) / (gameTime * 1.7f), 0f, .002f);
 	}
 
 	bool isEqual(float x, float y, float tolerance) {
