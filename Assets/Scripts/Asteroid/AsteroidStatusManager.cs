@@ -5,15 +5,15 @@ public class AsteroidStatusManager : MonoBehaviour {
 
 	public GameObject asteroidPieces, shield, nuke;
 	GameObject scoreManager;
-	public int shieldSpawnChance;
-	public int nukeSpawnChance;
+	public float shieldSpawnChance;
+	public float nukeSpawnChance;
 
 	void Start() {
 		scoreManager = GameObject.FindGameObjectWithTag("ScoreManager");
 	}
 
 	public void GetRekt() {
-		int dropNumber = Random.Range(0, 100);
+		float dropNumber = Random.Range(0f, 100f);
 		if(dropNumber < shieldSpawnChance) {
 			Destroy(Instantiate(shield, transform.position, transform.rotation), 10f);
 		} else if (dropNumber > 100 - nukeSpawnChance) {
@@ -26,7 +26,7 @@ public class AsteroidStatusManager : MonoBehaviour {
 	}
 
 	public void DeathByNuke() {
-		int dropNumber = Random.Range(0, 100);
+		float dropNumber = Random.Range(0f, 100f);
 		if(dropNumber < shieldSpawnChance) {
 			Destroy(Instantiate(shield, transform.position, transform.rotation), 10f);
 		} else if (dropNumber > 100 - nukeSpawnChance) {
