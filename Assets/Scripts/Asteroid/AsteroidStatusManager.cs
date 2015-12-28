@@ -3,18 +3,21 @@ using System.Collections;
 
 public class AsteroidStatusManager : MonoBehaviour {
 
-	public GameObject asteroidPieces, shield;
+	public GameObject asteroidPieces, shield, nuke;
 	GameObject scoreManager;
 	public int shieldSpawnChance;
+	public int nukeSpawnChance;
 
 	void Start() {
-		scoreManager = GameObject.FindWithTag("ScoreManager");
+		scoreManager = GameObject.FindGameObjectWithTag("ScoreManager");
 	}
 
 	public void GetRekt() {
-		int chanceForShield = Random.Range(0, 100);
-		if(chanceForShield < shieldSpawnChance) {
+		int dropNumber = Random.Range(0, 100);
+		if(dropNumber < shieldSpawnChance) {
 			Instantiate(shield, transform.position, transform.rotation);
+		} else if (dropNumber > 100 - nukeSpawnChance) {
+			Destroy(Instantiate(nuke, transform.position, transform.rotation), 10f);
 		}
 
 		Destroy(Instantiate(asteroidPieces, gameObject.transform.position, gameObject.transform.rotation), .5f);
@@ -23,9 +26,11 @@ public class AsteroidStatusManager : MonoBehaviour {
 	}
 
 	public void DeathByNuke() {
-		int chanceForShield = Random.Range(0, 100);
-		if(chanceForShield < shieldSpawnChance) {
-			Instantiate(shield, transform.position, transform.rotation);
+		int dropNumber = Random.Range(0, 100);
+		if(dropNumber < shieldSpawnChance) {
+			Destroy(Instantiate(shield, transform.position, transform.rotation), 10f);
+		} else if (dropNumber > 100 - nukeSpawnChance) {
+			Destroy(Instantiate(nuke, transform.position, transform.rotation), 10f);
 		}
 		scoreManager.SendMessage("AddPoints", 5);
 		Destroy(gameObject);

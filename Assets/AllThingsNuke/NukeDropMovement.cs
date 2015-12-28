@@ -1,23 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Shield : MonoBehaviour {
+public class NukeDropMovement : MonoBehaviour {
 
-	ScoreManager scoreManager;
+	GameObject nukeSpawner;
 	float speed = 7;
 
-	void OnEnable() {
-		scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
-	}
-
 	void Update() {
+		nukeSpawner = GameObject.FindGameObjectWithTag("Nuke");
 		transform.Translate(Vector3.left * Time.deltaTime * speed);
 	}
 
 	void OnTriggerEnter2D(Collider2D otherObject) {
 		if(otherObject.gameObject.tag == "Player") {
-			scoreManager.AddPoints(50);
-			otherObject.gameObject.SendMessage("ActivateShield");
+			nukeSpawner.SendMessage("SpawnNuke");
 			Destroy(gameObject);
 		}
 	}

@@ -36,12 +36,6 @@ public class AsteroidSpawnerManager : MonoBehaviour {
 
 	void FixedUpdate() {
 		gameTime = Time.time - totalTime;
-		if (gameTime % 15 < 1) {
-			GameObject[] allAsteroids = GameObject.FindGameObjectsWithTag("Asteroid");
-			foreach (GameObject asteroid in allAsteroids) {
-				asteroid.SendMessage("DeathByNuke");
-			}
-		}
 	}
 
 	void SpawnAsteroid() {
