@@ -15,7 +15,7 @@ public class AsteroidStatusManager : MonoBehaviour {
 	public void GetRekt() {
 		int dropNumber = Random.Range(0, 100);
 		if(dropNumber < shieldSpawnChance) {
-			Instantiate(shield, transform.position, transform.rotation);
+			Destroy(Instantiate(shield, transform.position, transform.rotation), 10f);
 		} else if (dropNumber > 100 - nukeSpawnChance) {
 			Destroy(Instantiate(nuke, transform.position, transform.rotation), 10f);
 		}

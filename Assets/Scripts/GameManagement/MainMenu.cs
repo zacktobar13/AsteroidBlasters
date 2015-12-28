@@ -30,6 +30,12 @@ public class MainMenu : MonoBehaviour {
 		foreach (GameObject shield in GameObject.FindGameObjectsWithTag("Shield")) {
 			Destroy(shield);
 		}
+		foreach (GameObject nuke in GameObject.FindGameObjectsWithTag("Nuke")) {
+			Destroy(nuke);
+		}
+		foreach (GameObject nukeDrop in GameObject.FindGameObjectsWithTag("NukeDrop")) {
+			Destroy(nukeDrop);
+		}
 	}
 	
 	void Update () {

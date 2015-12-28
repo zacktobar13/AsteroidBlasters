@@ -7,7 +7,7 @@ public class NukeDropMovement : MonoBehaviour {
 	float speed = 7;
 
 	void Update() {
-		nukeSpawner = GameObject.FindGameObjectWithTag("Nuke");
+		nukeSpawner = GameObject.FindGameObjectWithTag("NukeSpawner");
 		transform.Translate(Vector3.left * Time.deltaTime * speed);
 	}
 
