@@ -11,18 +11,15 @@ public class SoundManager : MonoBehaviour {
 	
 	void Start () {
 		audioSources = GetComponent<AudioSource>();
-        filePath = Application.persistentDataPath + "/sound.txt";
-        if (File.Exists(filePath)) {
-        	soundEnabled = PullSoundFromFile();
-        	if (soundEnabled) {
-        		EnableSound();
-        	} else {
-        		DisableSound();
-        	}
+        string sound = PlayerPrefs.GetString("Sound");
+        if (sound == "") {
+        	PlayerPrefs.SetString("Sound", "True");
         } else {
-        	WriteSoundToFile(true);
-        	EnableSound();
-        	soundEnabled = true;
+        	if (sound == "True") {
+        		EnableSound();
+    		} else {
+    			DisableSound();
+    		}
         }
 	}
 	
@@ -30,7 +27,6 @@ public class SoundManager : MonoBehaviour {
 		if (soundEnabled == false) {
 			return;
 		}
-		
 		if (volume != -1f) {
 			audioSources.volume = volume;
 		}
@@ -46,16 +42,4 @@ public class SoundManager : MonoBehaviour {
 		soundEnabled = false;
 		Music.SetActive(false);
 	}
-
-	bool PullSoundFromFile() {
-		StreamReader reader = new StreamReader(filePath);
-		string line = reader.ReadLine();
-		reader.Close();
-		return line == "True";
-	}
-
-	void WriteSoundToFile(bool toggler) {
-        string[] temp = {""+toggler};
-        File.WriteAllLines(filePath, temp);
-    }
 }

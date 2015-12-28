@@ -23,8 +23,7 @@ public class ScoreManager : MonoBehaviour {
 	void Start () {
 		generalSounds = GetComponent<GeneralSounds>();
 		currentScore = 0;
-		filePath = Application.persistentDataPath + "/score.txt";
-		highestScore = PullScoreFromFile();
+		highestScore = PlayerPrefs.GetInt("HighScore");
 		scoreTextUI.text = "High Score: " + highestScore;
 	}
 
@@ -46,8 +45,7 @@ public class ScoreManager : MonoBehaviour {
 		previousRoundsScore = currentScore;
 		scoreTextUI.text = MainMenuScore();
 		currentScore = 0;
-		string[] temp = {""+highestScore};
-		File.WriteAllLines(filePath, temp);
+		PlayerPrefs.SetInt("HighScore", highestScore);
 	}
 
 	IEnumerator ShowScorePosted() {
@@ -63,8 +61,7 @@ public class ScoreManager : MonoBehaviour {
 	}
 
 	public void resetHighScore() {
-		string[] temp = {"0"};
-		File.WriteAllLines(filePath, temp);
+		PlayerPrefs.SetInt("HighScore", 0);
 		highestScore = 0;
 		previousRoundsScore = 0;
 		scoreTextUI.text = MainMenuScore();
@@ -75,20 +72,6 @@ public class ScoreManager : MonoBehaviour {
 		soundManager.PlaySound(generalSounds.Sounds[0]);
 		yield return new WaitForSeconds(seconds);
 		newHighScore.text = "";
-	}
-
-	int PullScoreFromFile() {
-		if (File.Exists(filePath) == false) {
-			string[] temp = {""+currentScore};
-			File.WriteAllLines(filePath, temp);
-			return 0;
-		} else {
-			StreamReader reader = new StreamReader(filePath);
-			string line = reader.ReadLine();
-			reader.Close();
-			scoreTextUI.text = "" + int.Parse(line);
-			return int.Parse(line);
-		}
 	}
 
 	string CurrentScore() {

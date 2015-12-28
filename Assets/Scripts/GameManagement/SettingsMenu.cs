@@ -13,7 +13,7 @@ public class SettingsMenu : MonoBehaviour {
     public ScoreManager scoreManager;
     SoundManager soundManager;
     GeneralSounds generalSounds;
-    bool soundEnabled = true;
+    bool soundEnabled;
     bool creditsEnabled, confirmPageEnabled = false;
     public MainMenu mainMenu;
     string filePath;
@@ -25,11 +25,12 @@ public class SettingsMenu : MonoBehaviour {
         foreach(GameObject text in settingsMenuText) {
             text.SetActive(true);
         }
-        filePath = Application.persistentDataPath + "/sound.txt";
-        if (PullSoundFromFile()) {
+        if (PlayerPrefs.GetString("Sound") == "True") {
             soundToggleImage.sprite = soundOn;
+            soundEnabled = true;
         } else {
             soundToggleImage.sprite = soundOff;
+            soundEnabled = false;
         }
     }
     
@@ -148,11 +149,11 @@ public class SettingsMenu : MonoBehaviour {
         if(soundEnabled == true) {
             soundManager.DisableSound();
             soundToggleImage.sprite = soundOff;
-            WriteSoundToFile(false);
+            PlayerPrefs.SetString("Sound", "False");
         } else {
             soundManager.EnableSound();
             soundToggleImage.sprite = soundOn;
-            WriteSoundToFile(true);
+            PlayerPrefs.SetString("Sound", "True");
         }
     }
 
@@ -198,18 +199,6 @@ public class SettingsMenu : MonoBehaviour {
         foreach(GameObject text in settingsMenuText) {
                 text.SetActive(true);
             }
-    }
-
-    bool PullSoundFromFile() {
-        StreamReader reader = new StreamReader(filePath);
-        string line = reader.ReadLine();
-        reader.Close();
-        return line == "True";
-    }
-
-    void WriteSoundToFile(bool toggler) {
-        string[] temp = {""+toggler};
-        File.WriteAllLines(filePath, temp);
     }
         
 }
