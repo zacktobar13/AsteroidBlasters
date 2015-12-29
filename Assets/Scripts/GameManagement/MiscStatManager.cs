@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class MiscStatManager : MonoBehaviour {
 
-	//[HideInInspector]
+	[HideInInspector]
 	public int shieldsCollected, nukesCollected;
-	//[HideInInspector]
+	[HideInInspector]
 	public float lasersFired, asteroidsDestroyed, laserAccuracy, distanceTraveled;
 
 	public Text distanceTraveledText, lasersFiredText, asteroidsDestroyedText, laserAccuracyText, shieldsCollectedText, nukesCollectedText;
@@ -16,8 +16,12 @@ public class MiscStatManager : MonoBehaviour {
 		laserAccuracy = asteroidsDestroyed / lasersFired;
 		string accuracyString = string.Format("{0:0.0%}", laserAccuracy);
 		string distanceString = string.Format("{0:0.00}", distanceTraveled);
-		laserAccuracyText.text = accuracyString;
 
+		if(asteroidsDestroyed == 0) {
+			accuracyString = "0%";
+		}
+
+		laserAccuracyText.text = accuracyString;
 		distanceTraveledText.text = distanceString + " AU";
 		lasersFiredText.text = lasersFired.ToString();
 		asteroidsDestroyedText.text = asteroidsDestroyed.ToString();

@@ -7,7 +7,7 @@ using UnityEngine.SocialPlatforms;
 public class MainMenu : MonoBehaviour {
 
 	public GameObject[] startOfGameObjects;
-	public GameObject[] menuText;
+	public GameObject[] menuText, statMenuText;
 	public Image settingsButton;
 	public Sprite settingsButtonPressed;
 	public static bool activeGamePlaying = false;
@@ -174,13 +174,18 @@ public class MainMenu : MonoBehaviour {
 		return false;
 	}	
 
-	void StartGame() {
+	public void StartGame() {
 		foreach (GameObject startOfGameObject in startOfGameObjects) {
 			startOfGameObject.SetActive(true);
 		}
 		foreach (GameObject text in menuText) {
 			text.SetActive(false);
 		}
+
+		foreach (GameObject text in statMenuText) {
+			text.SetActive(false);
+		}
+
 		this.enabled = false;
 	}
 
@@ -191,5 +196,15 @@ public class MainMenu : MonoBehaviour {
 		settingsButton.sprite = settingsButtonPressed;
 		settingsMenu.enabled = true;
 		this.enabled = false;
+	}
+
+	public void ToggleMainMenu() {
+		foreach (GameObject text in menuText) {
+			text.SetActive(true);
+		}
+		this.enabled = true;
+		foreach (GameObject text in statMenuText) {
+			text.SetActive(false);
+		}
 	}
 }
