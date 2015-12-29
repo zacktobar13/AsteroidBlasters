@@ -3,7 +3,7 @@ using System.Collections;
 
 public class NukeBehavior : MonoBehaviour {
 	
-	float speed = 30f;
+	float speed = 20f;
 
 	void FixedUpdate () {
 		transform.Translate(Vector3.right * Time.deltaTime * speed);
