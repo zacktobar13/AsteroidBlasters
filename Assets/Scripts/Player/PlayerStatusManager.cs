@@ -11,7 +11,7 @@ public class PlayerStatusManager : MonoBehaviour {
 	public SoundManager soundManager;
 	GeneralSounds generalSounds;
 	PlayerMovement playerMovement;
-	public GameObject shieldText, fiftyPointsText;
+	public GameObject shieldText, fiftyPointsText, nukeText;
 
 	void Start() {
 		ScoreManager = GameObject.FindWithTag("ScoreManager");
@@ -25,6 +25,8 @@ public class PlayerStatusManager : MonoBehaviour {
 			mainMenu.enabled = true;
 			playerMovement.canMove = false;
 			shieldText.SetActive(false);
+			fiftyPointsText.SetActive(false);
+			nukeText.SetActive(false);
 			foreach (GameObject obj in activeObjects) {
 				obj.SetActive(false);
 			}
@@ -54,6 +56,7 @@ public class PlayerStatusManager : MonoBehaviour {
 	}
 
 	IEnumerator ShowShieldText() {
+		nukeText.SetActive(false);
 		fiftyPointsText.SetActive(false);
 		shieldText.SetActive(true);
 		yield return new WaitForSeconds(2f);
@@ -61,6 +64,7 @@ public class PlayerStatusManager : MonoBehaviour {
 	}
 
 	IEnumerator ShowFiftyPointsText() {
+		nukeText.SetActive(false);
 		shieldText.SetActive(false);
 		fiftyPointsText.SetActive(true);
 		yield return new WaitForSeconds(2f);
