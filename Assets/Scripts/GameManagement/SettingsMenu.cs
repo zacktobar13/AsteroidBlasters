@@ -13,7 +13,7 @@ public class SettingsMenu : MonoBehaviour {
     public ScoreManager scoreManager;
     SoundManager soundManager;
     GeneralSounds generalSounds;
-    bool soundEnabled;
+    bool soundEnabled, canTouch;
     bool creditsEnabled, confirmPageEnabled = false;
     public MainMenu mainMenu;
     string filePath;
@@ -22,6 +22,7 @@ public class SettingsMenu : MonoBehaviour {
         soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         generalSounds = GetComponent<GeneralSounds>();
         soundManager.PlaySound(generalSounds.Sounds[0]);
+        canTouch = true;
         foreach(GameObject text in settingsMenuText) {
             text.SetActive(true);
         }
@@ -106,7 +107,7 @@ public class SettingsMenu : MonoBehaviour {
     }
 
     bool OnYesButton(Vector2 touchPos) {
-        if (confirmPageEnabled && touchPos.x < Screen.width * .4 && touchPos.x > Screen.width * .15
+        if (confirmPageEnabled && canTouch && touchPos.x < Screen.width * .4 && touchPos.x > Screen.width * .15
              && touchPos.y < Screen.height * .26 && touchPos.y > Screen.height * .13) {
                 return true;
         }
@@ -114,7 +115,7 @@ public class SettingsMenu : MonoBehaviour {
     }
 
     bool OnNoButton(Vector2 touchPos) {
-        if (confirmPageEnabled && touchPos.x < Screen.width * .84 && touchPos.x > Screen.width * .6
+        if (confirmPageEnabled && canTouch && touchPos.x < Screen.width * .84 && touchPos.x > Screen.width * .6
              && touchPos.y < Screen.height * .3 && touchPos.y > Screen.height * .17) {
                 return true;
         }
@@ -158,7 +159,7 @@ public class SettingsMenu : MonoBehaviour {
     }
 
     IEnumerator EraseHighScore(){
-        confirmPageEnabled = false;
+        canTouch = false;
         confirmPage.SetActive(false);
         dataDeletedText.SetActive(true);
         soundManager.PlaySound(generalSounds.Sounds[0]);
@@ -169,6 +170,8 @@ public class SettingsMenu : MonoBehaviour {
                 text.SetActive(true);
         }
         scoreManager.resetHighScore();
+        confirmPageEnabled = false;
+        canTouch = true;
     }
 
     void ShowConfirmPage() {

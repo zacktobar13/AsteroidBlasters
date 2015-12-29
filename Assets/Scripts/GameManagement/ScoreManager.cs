@@ -15,6 +15,7 @@ public class ScoreManager : MonoBehaviour {
 	GeneralSounds generalSounds;
 	public SoundManager soundManager;
 	public GameObject scorePostedText, scoreFailedText;
+	public MiscStatManager miscStatManager;
 
 	int highestScore;
 
@@ -29,6 +30,7 @@ public class ScoreManager : MonoBehaviour {
 
 	public void AddPoints(int amount) {
 		currentScore += amount;
+		miscStatManager.distanceTraveled += 1;
 		if (currentScore > highestScore && firstHighScore) {
 			StartCoroutine("ShowHighScoreText", 2.5f);
 			firstHighScore = false;

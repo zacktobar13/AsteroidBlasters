@@ -7,13 +7,16 @@ public class AsteroidStatusManager : MonoBehaviour {
 	GameObject scoreManager;
 	public float shieldSpawnChance;
 	public float nukeSpawnChance;
+	MiscStatManager miscStatManager;
 
 	void Start() {
+		miscStatManager = GameObject.Find("Canvas").GetComponent<MiscStatManager>();
 		scoreManager = GameObject.FindGameObjectWithTag("ScoreManager");
 	}
 
 	public void GetRekt() {
 		float dropNumber = Random.Range(0f, 100f);
+		miscStatManager.asteroidsDestroyed += 1;
 		if(dropNumber < shieldSpawnChance) {
 			Destroy(Instantiate(shield, transform.position, transform.rotation), 10f);
 		} else if (dropNumber > 100 - nukeSpawnChance) {

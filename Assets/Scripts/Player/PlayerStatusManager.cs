@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerStatusManager : MonoBehaviour {
 
 	public MainMenu mainMenu;
-	public GameObject[] activeObjects;
+	public GameObject[] activeObjects, statsMenu;
 	public GameObject playerPieces, shieldSprite;
 	GameObject ScoreManager;
 	public bool hasShield = false;
@@ -12,6 +12,7 @@ public class PlayerStatusManager : MonoBehaviour {
 	GeneralSounds generalSounds;
 	PlayerMovement playerMovement;
 	public GameObject shieldText, fiftyPointsText, nukeText;
+	public MiscStatManager miscStatManager;
 
 	void Start() {
 		ScoreManager = GameObject.FindWithTag("ScoreManager");
@@ -19,10 +20,24 @@ public class PlayerStatusManager : MonoBehaviour {
 		playerMovement = gameObject.GetComponent<PlayerMovement>();
 	}
 
+	void OnEnable() {
+		miscStatManager.distanceTraveled = 0f;
+		miscStatManager.lasersFired = 0;
+		miscStatManager.asteroidsDestroyed = 0f;
+		miscStatManager.shieldsCollected = 0;
+		miscStatManager.nukesCollected = 0;
+		miscStatManager.laserAccuracy = 0f;
+	}
+
 	public void GetRekt() {
 		if(!hasShield) {
 			Destroy(Instantiate(playerPieces, transform.position, transform.rotation), 1.3f);
-			mainMenu.enabled = true;
+			miscStatManager.CalculateAllStats();
+
+			foreach(GameObject obj in statsMenu) {
+				obj.SetActive(true);
+			}
+			//mainMenu.enabled = true;
 			playerMovement.canMove = false;
 			shieldText.SetActive(false);
 			fiftyPointsText.SetActive(false);
@@ -37,12 +52,17 @@ public class PlayerStatusManager : MonoBehaviour {
 		}	
 	}
 
+	void FixedUpdate() {
+		miscStatManager.distanceTraveled += Time.deltaTime;
+	}
+
 	public void ActivateShield() {
 		if(!hasShield) {
 			StartCoroutine("ShowShieldText");
 		} else {
 			StartCoroutine("ShowFiftyPointsText");
 		}
+		miscStatManager.shieldsCollected += 1;
 		hasShield = true;
 		shieldSprite.SetActive(true);
 		soundManager.PlaySound(generalSounds.Sounds[0]);

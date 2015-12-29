@@ -5,8 +5,10 @@ public class NukeDropMovement : MonoBehaviour {
 	GameObject nukeSpawner; 
 	NukeAnimation nukeAnimation;
 	float speed = 7;
+	MiscStatManager miscStatManager;
 
 	void Awake() {
+		miscStatManager = GameObject.Find("Canvas").GetComponent<MiscStatManager>();
 		nukeSpawner = GameObject.FindGameObjectWithTag("NukeSpawner");
 		nukeAnimation = GameObject.Find("NukeFlash").GetComponent<NukeAnimation>();
 	}
@@ -17,6 +19,7 @@ public class NukeDropMovement : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D otherObject) {
 		if(otherObject.gameObject.tag == "Player") {
+			miscStatManager.nukesCollected += 1;
 			nukeSpawner.SendMessage("SpawnNuke");
 			nukeAnimation.NukeExplodeAnimation();
 			Destroy(gameObject);
