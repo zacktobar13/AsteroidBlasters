@@ -18,17 +18,22 @@ public class MiscStatManager : MonoBehaviour {
 	[HideInInspector]
 	public float highestLasersFired, highestAsteroidsDestroyed, highestLaserAccuracy, highestDistanceTraveled;
 
-	void Start() {
+	public void CalculateAllStats() {
 		highestShieldsCollected = PlayerPrefs.GetInt("highestShieldsCollected");
 		highestNukesCollected = PlayerPrefs.GetInt("highestNukesCollected");
 		highestLasersFired = PlayerPrefs.GetFloat("highestLasersFired");
 		highestAsteroidsDestroyed = PlayerPrefs.GetFloat("highestAsteroidsDestroyed");
 		highestDistanceTraveled = PlayerPrefs.GetFloat("highestDistanceTraveled");
 		highestLaserAccuracy = PlayerPrefs.GetFloat("highestLaserAccuracy");
-	}
 
-	public void CalculateAllStats() {
 		laserAccuracy = asteroidsDestroyed / lasersFired;
+		Debug.Log(laserAccuracy);
+		if (laserAccuracy > 1f) {
+			laserAccuracy = 1f;
+		}
+		Debug.Log(laserAccuracy);
+		CompareCurrentStatsToHighest();
+
 		string accuracyString = string.Format("{0:0.0%}", laserAccuracy);
 		string bestAccuracyString = string.Format("{0:0.0%}", highestLaserAccuracy);
 		string distanceString = string.Format("{0:0.00}", distanceTraveled);
@@ -38,15 +43,12 @@ public class MiscStatManager : MonoBehaviour {
 			accuracyString = "0%";
 		}
 
-		CompareCurrentStatsToHighest();
-
 		laserAccuracyText.text = accuracyString;
 		distanceTraveledText.text = distanceString + " AU";
 		lasersFiredText.text = lasersFired.ToString();
 		asteroidsDestroyedText.text = asteroidsDestroyed.ToString();
 		shieldsCollectedText.text = shieldsCollected.ToString();
 		nukesCollectedText.text = nukesCollected.ToString();
-
 
 		//Highest Scores
 		bestLaserAccuracyText.text = bestAccuracyString;
@@ -59,8 +61,8 @@ public class MiscStatManager : MonoBehaviour {
 
 	void CompareCurrentStatsToHighest() {
 		if (shieldsCollected > highestShieldsCollected) {
-			highestNukesCollected = shieldsCollected;
-			PlayerPrefs.SetFloat("highestShieldsCollected", shieldsCollected);
+			highestShieldsCollected = shieldsCollected;
+			PlayerPrefs.SetInt("highestShieldsCollected", shieldsCollected);
 		}
 		if (nukesCollected > highestNukesCollected) {
 			highestNukesCollected = nukesCollected;
