@@ -25,6 +25,7 @@ public class MiscStatManager : MonoBehaviour {
 		highestLasersFired = PlayerPrefs.GetFloat("highestLasersFired");
 		highestAsteroidsDestroyed = PlayerPrefs.GetFloat("highestAsteroidsDestroyed");
 		highestDistanceTraveled = PlayerPrefs.GetFloat("highestDistanceTraveled");
+		highestLaserAccuracy = PlayerPrefs.GetFloat("highestLaserAccuracy");
 	}
 
 	public void CalculateAllStats() {
@@ -66,6 +67,10 @@ public class MiscStatManager : MonoBehaviour {
 		if (distanceTraveled > highestDistanceTraveled) {
 			highestDistanceTraveled = distanceTraveled;
 			PlayerPrefs.SetFloat("highestDistanceTraveled", distanceTraveled);
+		}
+		if (laserAccuracy > highestLaserAccuracy) {
+			highestLaserAccuracy = laserAccuracy;
+			PlayerPrefs.SetFloat("highestLaserAccuracy", laserAccuracy);
 		}
 	}
 }
