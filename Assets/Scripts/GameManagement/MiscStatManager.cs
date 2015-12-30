@@ -27,11 +27,9 @@ public class MiscStatManager : MonoBehaviour {
 		highestLaserAccuracy = PlayerPrefs.GetFloat("highestLaserAccuracy");
 
 		laserAccuracy = asteroidsDestroyed / lasersFired;
-		Debug.Log(laserAccuracy);
 		if (laserAccuracy > 1f) {
 			laserAccuracy = 1f;
 		}
-		Debug.Log(laserAccuracy);
 		CompareCurrentStatsToHighest();
 
 		string accuracyString = string.Format("{0:0.0%}", laserAccuracy);
