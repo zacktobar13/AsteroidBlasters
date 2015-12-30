@@ -11,14 +11,13 @@ public class MiscStatManager : MonoBehaviour {
 	public float lasersFired, asteroidsDestroyed, laserAccuracy, distanceTraveled;
 
 	public Text distanceTraveledText, lasersFiredText, asteroidsDestroyedText, laserAccuracyText, shieldsCollectedText, nukesCollectedText;
+	public Text bestDistanceTraveledText, bestLasersFiredText, bestAsteroidsDestroyedText, bestLaserAccuracyText, bestShieldsCollectedText, bestNukesCollectedText;
 
 	[HideInInspector]
 	public int highestShieldsCollected, highestNukesCollected;
 	[HideInInspector]
 	public float highestLasersFired, highestAsteroidsDestroyed, highestLaserAccuracy, highestDistanceTraveled;
 
-	/** Everything has a max except for laser accuracy because that could
-	  * easily just be 100% by firing one time and then dying. */
 	void Start() {
 		highestShieldsCollected = PlayerPrefs.GetInt("highestShieldsCollected");
 		highestNukesCollected = PlayerPrefs.GetInt("highestNukesCollected");
@@ -31,7 +30,9 @@ public class MiscStatManager : MonoBehaviour {
 	public void CalculateAllStats() {
 		laserAccuracy = asteroidsDestroyed / lasersFired;
 		string accuracyString = string.Format("{0:0.0%}", laserAccuracy);
+		string bestAccuracyString = string.Format("{0:0.0%}", highestLaserAccuracy);
 		string distanceString = string.Format("{0:0.00}", distanceTraveled);
+		string bestDistanceString = string.Format("{0:0.00}", highestDistanceTraveled);
 
 		if(asteroidsDestroyed == 0) {
 			accuracyString = "0%";
@@ -45,6 +46,15 @@ public class MiscStatManager : MonoBehaviour {
 		asteroidsDestroyedText.text = asteroidsDestroyed.ToString();
 		shieldsCollectedText.text = shieldsCollected.ToString();
 		nukesCollectedText.text = nukesCollected.ToString();
+
+
+		//Highest Scores
+		bestLaserAccuracyText.text = bestAccuracyString;
+		bestDistanceTraveledText.text = bestDistanceString + " AU";
+		bestLasersFiredText.text = highestLasersFired.ToString();
+		bestAsteroidsDestroyedText.text = highestAsteroidsDestroyed.ToString();
+		bestShieldsCollectedText.text = highestShieldsCollected.ToString();
+		bestNukesCollectedText.text = highestNukesCollected.ToString();
 	}
 
 	void CompareCurrentStatsToHighest() {

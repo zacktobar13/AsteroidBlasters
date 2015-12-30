@@ -64,12 +64,12 @@ public class ScoreManager : MonoBehaviour {
 
 	public void resetHighScore() {
 		PlayerPrefs.SetInt("HighScore", 0);
-		highestShieldsCollected = PlayerPrefs.SetInt("highestShieldsCollected", 0);
-		highestNukesCollected = PlayerPrefs.SetInt("highestNukesCollected", 0);
-		highestLasersFired = PlayerPrefs.SetFloat("highestLasersFired", 0f);
-		highestAsteroidsDestroyed = PlayerPrefs.SetFloat("highestAsteroidsDestroyed", 0f);
-		highestDistanceTraveled = PlayerPrefs.SetFloat("highestDistanceTraveled", 0f);
-		highestLaserAccuracy = PlayerPrefs.SetFloat("highestLaserAccuracy", 0f);
+		PlayerPrefs.SetInt("highestShieldsCollected", 0);
+		PlayerPrefs.SetInt("highestNukesCollected", 0);
+		PlayerPrefs.SetFloat("highestLasersFired", 0f);
+		PlayerPrefs.SetFloat("highestAsteroidsDestroyed", 0f);
+		PlayerPrefs.SetFloat("highestDistanceTraveled", 0f);
+		PlayerPrefs.SetFloat("highestLaserAccuracy", 0f);
 		highestScore = 0;
 		previousRoundsScore = 0;
 		scoreTextUI.text = MainMenuScore();
