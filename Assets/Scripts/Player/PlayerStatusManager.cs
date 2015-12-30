@@ -53,7 +53,7 @@ public class PlayerStatusManager : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		miscStatManager.distanceTraveled += Time.deltaTime;
+		miscStatManager.distanceTraveled += .2f;
 	}
 
 	public void ActivateShield() {
