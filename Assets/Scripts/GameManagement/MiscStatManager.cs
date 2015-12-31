@@ -18,6 +18,8 @@ public class MiscStatManager : MonoBehaviour {
 	[HideInInspector]
 	public float highestLasersFired, highestAsteroidsDestroyed, highestLaserAccuracy, highestDistanceTraveled;
 
+	bool newHighScore;
+
 	public void CalculateAllStats() {
 		highestShieldsCollected = PlayerPrefs.GetInt("highestShieldsCollected");
 		highestNukesCollected = PlayerPrefs.GetInt("highestNukesCollected");
@@ -30,7 +32,6 @@ public class MiscStatManager : MonoBehaviour {
 		if (laserAccuracy > 1f) {
 			laserAccuracy = 1f;
 		}
-		CompareCurrentStatsToHighest();
 
 		string accuracyString = string.Format("{0:0.0%}", laserAccuracy);
 		string bestAccuracyString = string.Format("{0:0.0%}", highestLaserAccuracy);
@@ -55,32 +56,22 @@ public class MiscStatManager : MonoBehaviour {
 		bestAsteroidsDestroyedText.text = highestAsteroidsDestroyed.ToString();
 		bestShieldsCollectedText.text = highestShieldsCollected.ToString();
 		bestNukesCollectedText.text = highestNukesCollected.ToString();
+
+		if (newHighScore) {
+			NewBestStats();
+		}
 	}
 
-	void CompareCurrentStatsToHighest() {
-		if (shieldsCollected > highestShieldsCollected) {
-			highestShieldsCollected = shieldsCollected;
-			PlayerPrefs.SetInt("highestShieldsCollected", shieldsCollected);
-		}
-		if (nukesCollected > highestNukesCollected) {
-			highestNukesCollected = nukesCollected;
-			PlayerPrefs.SetInt("highestNukesCollected", nukesCollected);
-		}
-		if (lasersFired > highestLasersFired) {
-			highestLasersFired = lasersFired;
-			PlayerPrefs.SetFloat("highestLasersFired", lasersFired);
-		}
-		if (asteroidsDestroyed > highestAsteroidsDestroyed) {
-			highestAsteroidsDestroyed = asteroidsDestroyed;
-			PlayerPrefs.SetFloat("highestAsteroidsDestroyed", asteroidsDestroyed);
-		}
-		if (distanceTraveled > highestDistanceTraveled) {
-			highestDistanceTraveled = distanceTraveled;
-			PlayerPrefs.SetFloat("highestDistanceTraveled", distanceTraveled);
-		}
-		if (laserAccuracy > highestLaserAccuracy) {
-			highestLaserAccuracy = laserAccuracy;
-			PlayerPrefs.SetFloat("highestLaserAccuracy", laserAccuracy);
-		}
+	void NewBestStats() {
+		PlayerPrefs.SetInt("highestShieldsCollected", shieldsCollected);
+		PlayerPrefs.SetInt("highestNukesCollected", nukesCollected);
+		PlayerPrefs.SetFloat("highestLasersFired", lasersFired);
+		PlayerPrefs.SetFloat("highestAsteroidsDestroyed", asteroidsDestroyed);
+		PlayerPrefs.SetFloat("highestDistanceTraveled", distanceTraveled);
+		PlayerPrefs.SetFloat("highestLaserAccuracy", laserAccuracy);
+	}
+
+	public void GotHighScore(bool gotHighScore) {
+		newHighScore = gotHighScore;
 	}
 }

@@ -32,6 +32,7 @@ public class PlayerStatusManager : MonoBehaviour {
 	public void GetRekt() {
 		if(!hasShield) {
 			Destroy(Instantiate(playerPieces, transform.position, transform.rotation), 1.3f);
+			ScoreManager.SendMessage("EndOfRound");
 			miscStatManager.CalculateAllStats();
 
 			foreach(GameObject obj in statsMenu) {
@@ -45,8 +46,7 @@ public class PlayerStatusManager : MonoBehaviour {
 			foreach (GameObject obj in activeObjects) {
 				obj.SetActive(false);
 			}
-				ScoreManager.SendMessage("EndOfRound");
-				this.gameObject.SetActive(false);
+			this.gameObject.SetActive(false);
 		} else {
 			DeActivateShield();
 		}	

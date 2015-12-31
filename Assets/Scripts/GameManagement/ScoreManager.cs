@@ -42,6 +42,9 @@ public class ScoreManager : MonoBehaviour {
 		if (currentScore > highestScore) {
 			highestScore = currentScore;
 			UpdateLeaderboard(highestScore);
+			miscStatManager.GotHighScore(true);
+		} else {
+			miscStatManager.GotHighScore(false);
 		}
 		firstHighScore = true;
 		previousRoundsScore = currentScore;
