@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviour {
 
 	int currentScore, previousRoundsScore;
 	string filePath;
-	string leaderboard = "CgkI9IT9xcoVEAIQAQ";
+	string leaderboard = GooglePlayConstants.leaderboard_high_score;
 	bool firstHighScore = true;
 	GeneralSounds generalSounds;
 	public SoundManager soundManager;

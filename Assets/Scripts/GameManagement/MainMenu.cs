@@ -14,7 +14,7 @@ public class MainMenu : MonoBehaviour {
 	public SoundManager soundManager;
 	public GeneralSounds generalSounds;
 	public SettingsMenu settingsMenu;
-	string leaderboard = "CgkI9IT9xcoVEAIQAQ";
+	string leaderboard = GooglePlayConstants.leaderboard_high_score;
 	public GameObject googlePlay;
 	public GameObject leaderboardFailText, alreadyLoggedInText, logInFailedText, logInSuccessText;
 	public bool canTouch = true;

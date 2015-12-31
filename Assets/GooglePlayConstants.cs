@@ -24,7 +24,12 @@
 
 public static class GooglePlayConstants
 {
-        public const string leaderboard_high_score = "CgkI9IT9xcoVEAIQAQ"; // <GPGSID>
+        public const string achievement_5 = "CgkI9IT9xcoVEAIQBg"; // <GPGSID>
+        public const string leaderboard_high_score = "CgkI9IT9xcoVEAIQBw"; // <GPGSID>
+        public const string achievement_1 = "CgkI9IT9xcoVEAIQAg"; // <GPGSID>
+        public const string achievement_2 = "CgkI9IT9xcoVEAIQAw"; // <GPGSID>
+        public const string achievement_3 = "CgkI9IT9xcoVEAIQBA"; // <GPGSID>
+        public const string achievement_4 = "CgkI9IT9xcoVEAIQBQ"; // <GPGSID>
 
 }
 
