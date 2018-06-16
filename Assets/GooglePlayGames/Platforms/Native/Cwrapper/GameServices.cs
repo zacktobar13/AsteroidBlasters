@@ -20,6 +20,7 @@ namespace GooglePlayGames.Native.Cwrapper
 {
     using System;
     using System.Runtime.InteropServices;
+    using System.Text;
 
     internal static class GameServices
     {
@@ -49,6 +50,7 @@ namespace GooglePlayGames.Native.Cwrapper
         [DllImport(SymbolLocation.NativeSymbolLocation)]
         internal static extern void GameServices_StartAuthorizationUI(
             HandleRef self);
+
     }
 }
 #endif // (UNITY_ANDROID || UNITY_IPHONE)

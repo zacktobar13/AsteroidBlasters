@@ -14,7 +14,9 @@
 //    limitations under the License.
 // </copyright>
 
-namespace GooglePlayGames
+// Keep this file even on unsupported configurations.
+
+namespace GooglePlayGames.Editor
 {
     using System.Collections.Generic;
     using System.IO;
@@ -55,7 +57,7 @@ namespace GooglePlayGames
                     "Assets/GooglePlayGames/Editor/projsettings.txt".Replace("/", ds),
                     "Assets/Editor/projsettings.txt".Replace("/", ds)
                 };
-            
+
             foreach (string f in fileLocations)
             {
                 if (File.Exists(f))
@@ -65,7 +67,7 @@ namespace GooglePlayGames
                     break;
                 }
             }
-                
+
             if (rd != null)
             {
                 while (!rd.EndOfStream)
@@ -170,6 +172,11 @@ namespace GooglePlayGames
 
             wr.Close();
             mDirty = false;
+        }
+
+        public static void Reload ()
+        {
+            sInstance = new GPGSProjectSettings();
         }
     }
 }

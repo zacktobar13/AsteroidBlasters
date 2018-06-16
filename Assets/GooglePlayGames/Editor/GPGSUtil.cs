@@ -13,8 +13,9 @@
 //  See the License for the specific language governing permissions and
 //    limitations under the License.
 // </copyright>
+// Keep this even on unsupported configurations.
 
-namespace GooglePlayGames
+namespace GooglePlayGames.Editor
 {
     using System;
     using System.Collections;
@@ -45,12 +46,6 @@ namespace GooglePlayGames
         public const string WEBCLIENTIDKEY = "and.ClientId";
 
         /// <summary>Property key for project settings.</summary>
-        public const string IOSCLIENTIDKEY = "ios.ClientId";
-
-        /// <summary>Property key for project settings.</summary>
-        public const string IOSBUNDLEIDKEY = "ios.BundleId";
-
-        /// <summary>Property key for project settings.</summary>
         public const string ANDROIDRESOURCEKEY = "and.ResourceData";
 
         /// <summary>Property key for project settings.</summary>
@@ -59,17 +54,21 @@ namespace GooglePlayGames
         /// <summary>Property key for project settings.</summary>
         public const string ANDROIDBUNDLEIDKEY = "and.BundleId";
 
-        /// <summary>Property key for project settings.</summary>
-        public const string IOSRESOURCEKEY = "ios.ResourceData";
+        /// <summary>Property key for plugin version.</summary>
+        public const string PLUGINVERSIONKEY = "proj.pluginVersion";
 
-        /// <summary>Property key for project settings.</summary>
-        public const string IOSSETUPDONEKEY = "ios.SetupDone";
+        /// <summary>Property key for nearby settings done.</summary>
+        public const string NEARBYSETUPDONEKEY = "android.NearbySetupDone";
 
         /// <summary>Property key for project settings.</summary>
         public const string LASTUPGRADEKEY = "lastUpgrade";
 
         /// <summary>Constant for token replacement</summary>
         private const string SERVICEIDPLACEHOLDER = "__NEARBY_SERVICE_ID__";
+
+        private const string SERVICEID_ELEMENT_PLACEHOLDER = "__NEARBY_SERVICE_ELEMENT__";
+
+        private const string NEARBY_PERMISSIONS_PLACEHOLDER = "__NEARBY_PERMISSIONS__";
 
         /// <summary>Constant for token replacement</summary>
         private const string APPIDPLACEHOLDER = "__APP_ID__";
@@ -81,13 +80,10 @@ namespace GooglePlayGames
         private const string WEBCLIENTIDPLACEHOLDER = "__WEB_CLIENTID__";
 
         /// <summary>Constant for token replacement</summary>
-        private const string IOSCLIENTIDPLACEHOLDER = "__IOS_CLIENTID__";
+        private const string PLUGINVERSIONPLACEHOLDER = "__PLUGIN_VERSION__";
 
-        /// <summary>Constant for token replacement</summary>
-        private const string IOSBUNDLEIDPLACEHOLDER = "__BUNDLEID__";
-
-        /// <summary>Constant for token replacement</summary>
-        private const string TOKENPERMISSIONSHOLDER = "__TOKEN_PERMISSIONS__";
+        /// <summary>Constant for require google plus token replacement</summary>
+        private const string REQUIREGOOGLEPLUSPLACEHOLDER = "__REQUIRE_GOOGLE_PLUS__";
 
         /// <summary>Property key for project settings.</summary>
         private const string TOKENPERMISSIONKEY = "proj.tokenPermissions";
@@ -107,11 +103,12 @@ namespace GooglePlayGames
         private const string GameInfoPath = "Assets/GooglePlayGames/GameInfo.cs";
 
         /// <summary>
-        /// The token permissions to add if needed.
+        /// The manifest path.
         /// </summary>
-        private const string TokenPermissions =
-            "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>\n" +
-            "<uses-permission android:name=\"android.permission.USE_CREDENTIALS\"/>";
+        /// <remarks>The Games SDK requires additional metadata in the AndroidManifest.xml
+        ///     file. </remarks>
+        private const string ManifestPath =
+           "Assets/GooglePlayGames/Plugins/Android/GooglePlayGamesManifest.plugin/AndroidManifest.xml";
 
         /// <summary>
         /// The map of replacements for filling in code templates.  The
@@ -121,13 +118,15 @@ namespace GooglePlayGames
         private static Dictionary<string, string> replacements =
             new Dictionary<string, string>()
             {
+                // Put this element placeholder first, since it has embedded placeholder
+                {SERVICEID_ELEMENT_PLACEHOLDER,  SERVICEID_ELEMENT_PLACEHOLDER},
                 { SERVICEIDPLACEHOLDER, SERVICEIDKEY },
                 { APPIDPLACEHOLDER, APPIDKEY },
                 { CLASSNAMEPLACEHOLDER, CLASSNAMEKEY },
                 { WEBCLIENTIDPLACEHOLDER, WEBCLIENTIDKEY },
-                { IOSCLIENTIDPLACEHOLDER, IOSCLIENTIDKEY },
-                { IOSBUNDLEIDPLACEHOLDER, IOSBUNDLEIDKEY },
-                { TOKENPERMISSIONSHOLDER, TOKENPERMISSIONKEY }
+                { PLUGINVERSIONPLACEHOLDER, PLUGINVERSIONKEY},
+                // Causes the placeholder to be replaced with overridden value at runtime.
+                {  NEARBY_PERMISSIONS_PLACEHOLDER, NEARBY_PERMISSIONS_PLACEHOLDER}
             };
 
         /// <summary>
@@ -311,25 +310,6 @@ namespace GooglePlayGames
                 Debug.Log("GameInfo.cs does not exist.  Run Window > Google Play Games > Setup > Android Setup...");
                 return false;
             }
-            #elif (UNITY_IPHONE && !NO_GPGS)
-            doneSetup = GPGSProjectSettings.Instance.GetBool(IOSSETUPDONEKEY, false);
-            // check gameinfo
-            if (File.Exists(GameInfoPath))
-            {
-                string contents = ReadFile(GameInfoPath);
-                if (contents.Contains(IOSCLIENTIDPLACEHOLDER))
-                {
-                    Debug.Log("GameInfo not initialized with Client Id.  " +
-                        "Run Window > Google Play Games > Setup > iOS Setup...");
-                    return false;
-                }
-            }
-            else
-            {
-                Debug.Log("GameInfo.cs does not exist.  Run Window > Google Play Games > Setup > iOS Setup...");
-                return false;
-            }
-
             #endif
 
             return doneSetup;
@@ -434,112 +414,12 @@ namespace GooglePlayGames
         }
 
         /// <summary>
-        /// Copies the Android support libs to this project.  Not needed
-        /// for unity 5+.
-        /// </summary>
-        public static void CopySupportLibs()
-        {
-            // Post version 5 this method is not needed.
-            if (GetUnityMajorVersion() >= 5)
-            {
-                return;
-            }
-
-            string sdkPath = GetAndroidSdkPath();
-            string supportJarPath = sdkPath +
-                                    GPGSUtil.SlashesToPlatformSeparator(
-                                        "/extras/android/support/v4/android-support-v4.jar");
-            string supportJarDest =
-                GPGSUtil.SlashesToPlatformSeparator("Assets/Plugins/Android/libs/android-support-v4.jar");
-
-            string libProjPath = sdkPath +
-                                 GPGSUtil.SlashesToPlatformSeparator(
-                                     "/extras/google/google_play_services/libproject/google-play-services_lib");
-
-            string libProjAM =
-                libProjPath + GPGSUtil.SlashesToPlatformSeparator("/AndroidManifest.xml");
-            string libProjDestDir = GPGSUtil.SlashesToPlatformSeparator(
-                                        "Assets/Plugins/Android/google-play-services_lib");
-
-            // check that the Google Play Services lib project is there
-            if (!Directory.Exists(libProjPath) || !File.Exists(libProjAM))
-            {
-                Debug.LogError("Google Play Services lib project not found at: " + libProjPath);
-                EditorUtility.DisplayDialog(
-                    GPGSStrings.AndroidSetup.LibProjNotFound,
-                    GPGSStrings.AndroidSetup.LibProjNotFoundBlurb,
-                    GPGSStrings.Ok);
-                return;
-            }
-
-            // check version
-            int version = GetGPSVersion(libProjPath);
-            if (version < 0)
-            {
-                Debug.LogError("Google Play Services lib version cannot be found!");
-            }
-
-            if (version < PluginVersion.MinGmsCoreVersionCode)
-            {
-                if (!EditorUtility.DisplayDialog(
-                        string.Format(
-                            GPGSStrings.AndroidSetup.LibProjVerTooOld,
-                            version,
-                            PluginVersion.MinGmsCoreVersionCode),
-                        GPGSStrings.Ok,
-                        GPGSStrings.Cancel))
-                {
-                    Debug.LogError("Google Play Services lib is too old! " +
-                        " Found version " +
-                        version + " require at least version " +
-                        PluginVersion.MinGmsCoreVersionCode);
-                    return;
-                }
-
-                Debug.Log("Ignoring the version mismatch and continuing the build.");
-            }
-
-            // clear out the destination library project
-            GPGSUtil.DeleteDirIfExists(libProjDestDir);
-
-            // Copy Google Play Services library
-            FileUtil.CopyFileOrDirectory(libProjPath, libProjDestDir);
-
-            if (!System.IO.File.Exists(supportJarPath))
-            {
-                // check for the new location
-                supportJarPath = sdkPath + GPGSUtil.SlashesToPlatformSeparator(
-                    "/extras/android/support/v7/appcompat/libs/android-support-v4.jar");
-                Debug.LogError("Android support library v4 not found at: " + supportJarPath);
-                if (!System.IO.File.Exists(supportJarPath))
-                {
-                    EditorUtility.DisplayDialog(
-                        GPGSStrings.AndroidSetup.SupportJarNotFound,
-                        GPGSStrings.AndroidSetup.SupportJarNotFoundBlurb,
-                        GPGSStrings.Ok);
-                    return;
-                }
-            }
-
-            // create needed directories
-            GPGSUtil.EnsureDirExists("Assets/Plugins");
-            GPGSUtil.EnsureDirExists("Assets/Plugins/Android");
-
-            // Clear out any stale version of the support jar.
-            File.Delete(supportJarDest);
-
-            // Copy Android Support Library
-            FileUtil.CopyFileOrDirectory(supportJarPath, supportJarDest);
-        }
-
-        /// <summary>
         /// Checks for the android manifest file exsistance.
         /// </summary>
         /// <returns><c>true</c>, if the file exists <c>false</c> otherwise.</returns>
         public static bool AndroidManifestExists()
         {
-            string destFilename = GPGSUtil.SlashesToPlatformSeparator(
-                                      "Assets/Plugins/Android/MainLibProj/AndroidManifest.xml");
+            string destFilename = GPGSUtil.SlashesToPlatformSeparator(ManifestPath);
 
             return File.Exists(destFilename);
         }
@@ -547,11 +427,10 @@ namespace GooglePlayGames
         /// <summary>
         /// Generates the android manifest.
         /// </summary>
-        /// <param name="needTokenPermissions">If set to <c>true</c> need token permissions.</param>
-        public static void GenerateAndroidManifest(bool needTokenPermissions)
+        public static void GenerateAndroidManifest()
         {
-            string destFilename = GPGSUtil.SlashesToPlatformSeparator(
-                                      "Assets/Plugins/Android/MainLibProj/AndroidManifest.xml");
+
+            string destFilename = GPGSUtil.SlashesToPlatformSeparator(ManifestPath);
 
             // Generate AndroidManifest.xml
             string manifestBody = GPGSUtil.ReadEditorTemplate("template-AndroidManifest");
@@ -559,14 +438,24 @@ namespace GooglePlayGames
             Dictionary<string, string> overrideValues =
                 new Dictionary<string, string>();
 
-            if (!needTokenPermissions)
+            if (!string.IsNullOrEmpty (GPGSProjectSettings.Instance.Get (SERVICEIDKEY)))
             {
-                overrideValues[TOKENPERMISSIONKEY] = string.Empty;
-                overrideValues[WEBCLIENTIDPLACEHOLDER] = string.Empty;
+                overrideValues [NEARBY_PERMISSIONS_PLACEHOLDER] =
+                    "        <!-- Required for Nearby Connections -->\n" +
+                    "        <uses-permission android:name=\"android.permission.BLUETOOTH\" />\n" +
+                    "        <uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\" />\n" +
+                    "        <uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />\n" +
+                    "        <uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\" />\n" +
+                    "        <uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />\n";
+                overrideValues [SERVICEID_ELEMENT_PLACEHOLDER] =
+                    "             <!-- Required for Nearby Connections API -->\n" +
+                    "             <meta-data android:name=\"com.google.android.gms.nearby.connection.SERVICE_ID\"\n" +
+                    "                  android:value=\"__NEARBY_SERVICE_ID__\" />\n";
             }
             else
             {
-                overrideValues[TOKENPERMISSIONKEY] = TokenPermissions;
+                overrideValues [NEARBY_PERMISSIONS_PLACEHOLDER] = "";
+                overrideValues [SERVICEID_ELEMENT_PLACEHOLDER] = "";
             }
 
             foreach (KeyValuePair<string, string> ent in replacements)

@@ -20,6 +20,9 @@ namespace GooglePlayGames.Native.PInvoke
 {
     using System;
     using System.Runtime.InteropServices;
+    using System.Collections.Generic;
+    using GooglePlayGames.Native.Cwrapper;
+    using GooglePlayGames.OurUtils;
     using C = GooglePlayGames.Native.Cwrapper.GameServices;
 
     class GameServices : BaseReferenceHolder
@@ -58,6 +61,11 @@ namespace GooglePlayGames.Native.PInvoke
         public PlayerManager PlayerManager()
         {
             return new PlayerManager(this);
+        }
+
+        public StatsManager StatsManager()
+        {
+            return new StatsManager(this);
         }
 
         internal HandleRef AsHandle()
