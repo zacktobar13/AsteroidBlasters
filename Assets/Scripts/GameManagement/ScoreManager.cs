@@ -3,14 +3,11 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using UnityEngine.UI;
-using GooglePlayGames;
-using UnityEngine.SocialPlatforms;
 
 public class ScoreManager : MonoBehaviour {
 
 	int currentScore, previousRoundsScore;
 	string filePath;
-	string leaderboard = GooglePlayConstants.leaderboard_high_score;
 	bool firstHighScore = true;
 	GeneralSounds generalSounds;
 	public SoundManager soundManager;
@@ -94,16 +91,16 @@ public class ScoreManager : MonoBehaviour {
 	}
 
 	void UpdateLeaderboard(int score) {
-		if(PlayGamesPlatform.Instance.IsAuthenticated()) {
-			Social.ReportScore(score, leaderboard, (bool success) => {
-	        	if(success) {
-	        		StartCoroutine("ShowScorePosted");
-	        	} else {
-	        		StartCoroutine("ShowScoreFailed");
-	        	}
-	    	});
-		} else {
-			StartCoroutine("ShowScoreFailed");
-		}
+		//if(PlayGamesPlatform.Instance.IsAuthenticated()) {
+		//	Social.ReportScore(score, leaderboard, (bool success) => {
+	 //       	if(success) {
+	 //       		StartCoroutine("ShowScorePosted");
+	 //       	} else {
+	 //       		StartCoroutine("ShowScoreFailed");
+	 //       	}
+	 //   	});
+		//} else {
+		//	StartCoroutine("ShowScoreFailed");
+		//}
 	}
 }

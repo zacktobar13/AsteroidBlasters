@@ -9,7 +9,7 @@ public class LaserBehavior : MonoBehaviour {
 
 	void OnTriggerEnter2D (Collider2D other) {
 		if (other.gameObject.tag == "Asteroid") {
-			other.gameObject.SendMessage("GetRekt");
+			other.gameObject.SendMessage("Death");
 			Destroy(gameObject);
 		}
 	}

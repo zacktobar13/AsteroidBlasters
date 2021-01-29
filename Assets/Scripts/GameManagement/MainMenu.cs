@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using GooglePlayGames;
-using UnityEngine.SocialPlatforms;
 
 public class MainMenu : MonoBehaviour {
 
@@ -14,7 +12,6 @@ public class MainMenu : MonoBehaviour {
 	public SoundManager soundManager;
 	public GeneralSounds generalSounds;
 	public SettingsMenu settingsMenu;
-	string leaderboard = GooglePlayConstants.leaderboard_high_score;
 	public GameObject googlePlay;
 	public GameObject leaderboardFailText, alreadyLoggedInText, logInFailedText, logInSuccessText;
 	public bool canTouch = true;
@@ -39,34 +36,52 @@ public class MainMenu : MonoBehaviour {
 	}
 	
 	void Update () {
-		foreach(Touch touch in Input.touches) {
-			if(canTouch) {
-				if (touch.phase == TouchPhase.Began) {
-					if (OnStartButton(touch.position)) {
+		foreach (Touch touch in Input.touches)
+		{
+			if (canTouch)
+			{
+				if (touch.phase == TouchPhase.Began)
+				{
+					if (OnStartButton(touch.position))
+					{
 						StartGame();
-					} else if (OnQuitButton(touch.position)) {
-						Application.Quit();
-					} else if (OnSettingsButton(touch.position)) {
-						EnableSettingsMenu();
-					} else if (OnLeaderboardButton(touch.position)) {
-						if(PlayGamesPlatform.Instance.IsAuthenticated()) {
-							PlayGamesPlatform.Instance.ShowLeaderboardUI(leaderboard);
-						} else {
-							soundManager.PlaySound(generalSounds.Sounds[1]);
-							StartCoroutine("LeaderboardFail");
-						}
-					} else if (OnLogInButton(touch.position)) {
-						if(!PlayGamesPlatform.Instance.IsAuthenticated()) {
-							googlePlay.SendMessage("LogIn");
-						} else {
-							StartCoroutine("AlreadyLoggedIn");
-						}
 					}
+					else if (OnQuitButton(touch.position))
+					{
+						Application.Quit();
+					}
+					else if (OnSettingsButton(touch.position))
+					{
+						EnableSettingsMenu();
+					}
+					//else if (OnLeaderboardButton(touch.position))
+					//{
+					//	//if (PlayGamesPlatform.Instance.IsAuthenticated())
+					//	//{
+					//	//	PlayGamesPlatform.Instance.ShowLeaderboardUI(leaderboard);
+					//	//}
+					//	//else
+					//	//{
+					//	//	soundManager.PlaySound(generalSounds.Sounds[1]);
+					//	//	StartCoroutine("LeaderboardFail");
+					//	//}
+					//}
+					//else if (OnLogInButton(touch.position))
+					//{
+					//	if (!PlayGamesPlatform.Instance.IsAuthenticated())
+					//	{
+					//		googlePlay.SendMessage("LogIn");
+					//	}
+					//	else
+					//	{
+					//		StartCoroutine("AlreadyLoggedIn");
+					//	}
+					//}
 				}
 			}
-		}	
+		}
 
-		if(Input.GetKeyDown(KeyCode.Escape)) {
+		if (Input.GetKeyDown(KeyCode.Escape)) {
 			Application.Quit();
 		}
 	}

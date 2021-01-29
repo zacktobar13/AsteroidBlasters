@@ -11,7 +11,7 @@ public class BarrierBehavior : MonoBehaviour {
 
 	void OnCollisionEnter2D (Collision2D other) {
 		if (other.gameObject.tag == "Player") {
-			other.gameObject.SendMessage("GetRekt");
+			other.gameObject.SendMessage("PlayerDeath", SendMessageOptions.DontRequireReceiver);
 		}
 	}
 }

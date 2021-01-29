@@ -29,7 +29,7 @@ public class PlayerStatusManager : MonoBehaviour {
 		miscStatManager.laserAccuracy = 0f;
 	}
 
-	public void GetRekt() {
+	public void PlayerDeath() {
 		if(!hasShield) {
 			Destroy(Instantiate(playerPieces, transform.position, transform.rotation), 1.3f);
 			ScoreManager.SendMessage("EndOfRound");

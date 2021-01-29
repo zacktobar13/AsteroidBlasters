@@ -14,7 +14,7 @@ public class AsteroidStatusManager : MonoBehaviour {
 		scoreManager = GameObject.FindGameObjectWithTag("ScoreManager");
 	}
 
-	public void GetRekt() {
+	public void Death() {
 		float dropNumber = Random.Range(0f, 100f);
 		miscStatManager.asteroidsDestroyed += 1;
 		if(dropNumber < shieldSpawnChance) {
