@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerStatusManager : MonoBehaviour {
+public class PlayerStatusManager : MonoBehaviour 
+{
 
 	public MainMenu mainMenu;
-	public GameObject[] activeObjects, statsMenu;
+	public GameObject statsMenu;
+	public GameObject[] activeObjects;
 	public GameObject playerPieces, shieldSprite;
 	GameObject ScoreManager;
 	public bool hasShield = false;
@@ -30,20 +32,22 @@ public class PlayerStatusManager : MonoBehaviour {
 	}
 
 	public void PlayerDeath() {
-		if(!hasShield) {
+		if(!hasShield) 
+		{
 			Destroy(Instantiate(playerPieces, transform.position, transform.rotation), 1.3f);
 			ScoreManager.SendMessage("EndOfRound");
 			miscStatManager.CalculateAllStats();
+		
 
-			foreach(GameObject obj in statsMenu) {
-				obj.SetActive(true);
-			}
+		    statsMenu.SetActive(true);
+
 			//mainMenu.enabled = true;
 			playerMovement.canMove = false;
 			shieldText.SetActive(false);
 			fiftyPointsText.SetActive(false);
 			nukeText.SetActive(false);
-			foreach (GameObject obj in activeObjects) {
+			foreach (GameObject obj in activeObjects) 
+			{
 				obj.SetActive(false);
 			}
 			this.gameObject.SetActive(false);

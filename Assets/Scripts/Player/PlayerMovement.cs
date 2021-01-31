@@ -3,94 +3,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class PlayerMovement : MonoBehaviour {
-
+public class PlayerMovement : MonoBehaviour 
+{
 	Rigidbody2D rigidBody;
-
-	bool isTouching;
-	bool mainMenu;
-	public Image thrustButton, laserButton;
-	public Sprite buttonUnPressed, buttonPressed;
+	public float thrustForce;
 	public bool canMove = false;
 	public SoundManager soundManager;
 	public GeneralSounds generalSounds;
 	public Text countdown;
+	bool isThrustPressed = false;
 
 	void Start () {
 		rigidBody = this.GetComponent<Rigidbody2D>();
 	}
 
-	void OnEnable() {
+	void OnEnable() 
+	{
 		countdown.text = "";
 		rigidBody = this.GetComponent<Rigidbody2D>();
-		isTouching = false;
 		transform.position = new Vector2(-7.6f, 0f);
 		rigidBody.isKinematic = true;
-		thrustButton.sprite = buttonUnPressed;
-		laserButton.sprite = buttonUnPressed;
+		rigidBody.velocity = Vector2.zero;
+		isThrustPressed = false;
 		StartCoroutine("GameStartCountdown");
 	}
 
-	void Update () {
-		foreach(Touch touch in Input.touches) {
-			if (touch.phase == TouchPhase.Began) {
-				if (OnFireButton(touch.position)) {
-					gameObject.SendMessage("FireLaser");
-					StopCoroutine("FireButtonSpriteChange");
-					StartCoroutine("FireButtonSpriteChange");
-				} else if (!isTouching) {
-					isTouching = OnThrustButton(touch.position);
-				}
-			} else if (touch.phase == TouchPhase.Moved) {
-				if (OnThrustButton(touch.position - touch.deltaPosition) && !OnThrustButton(touch.position)) {
-					isTouching = false;
-				}
-			}
-		}
-		if (Input.touches.Length == 0) {
-			isTouching = false;
-		} else if (Input.touches.Length == 1) {
-			if (!OnThrustButton(Input.touches[0].position)) {
-				isTouching = false;
-			}
-		} else if (Input.touches.Length == 2) {
-			if (!OnThrustButton(Input.touches[0].position) && !OnThrustButton(Input.touches[1].position)) {
-				isTouching = false;
-			}
-		}
+	void Update () 
+	{
+		if (isThrustPressed)
+			Thrust();
 	}
 
-	void FixedUpdate() {
-		if(canMove) {
-			if (isTouching) {
-				rigidBody.AddForce(new Vector2(0, 16));
-				thrustButton.sprite = buttonPressed;
-			} else {
-				thrustButton.sprite = buttonUnPressed;
-			}
-		}
+	public void OnThrustDown()
+	{
+		isThrustPressed = true;
 	}
 
-	bool OnFireButton(Vector2 touchPos) {
-			if (touchPos.x > Screen.width * .7 && touchPos.y < Screen.height * .3) {
-				if(canMove) {
-					return true;
-				}
-			}
-			return false;
+	public void OnThrustUp()
+	{
+		isThrustPressed = false;
 	}
 
-	bool OnThrustButton(Vector2 touchPos) {
-		if (touchPos.x < Screen.width * .3 && touchPos.y < Screen.height * .3) {
-			return true;
-		}
-		return false;
-	}
-
-	IEnumerator FireButtonSpriteChange() {
-		laserButton.sprite = buttonPressed;
-		yield return new WaitForSeconds(.15f);
-		laserButton.sprite = buttonUnPressed;
+	public void Thrust()
+	{
+		rigidBody.AddForce(new Vector2(0, thrustForce) * Time.deltaTime);
 	}
 
 	IEnumerator GameStartCountdown() {

@@ -2,224 +2,74 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour {
-
-	public GameObject[] startOfGameObjects;
+public class MainMenu : MonoBehaviour 
+{
+	public GameObject player;
+	public GameObject gameplayUI;
+	public GameObject asteroidSpawner;
 	public GameObject[] menuText, statMenuText;
-	public Image settingsButton;
 	public Sprite settingsButtonPressed;
 	public static bool activeGamePlaying = false;
 	public SoundManager soundManager;
 	public GeneralSounds generalSounds;
-	public SettingsMenu settingsMenu;
-	public GameObject googlePlay;
-	public GameObject leaderboardFailText, alreadyLoggedInText, logInFailedText, logInSuccessText;
+	public GameObject settingsMenu;
 	public bool canTouch = true;
-	float lastSettingsTouch;
 
-	void OnEnable () {
-		foreach (GameObject text in menuText) {
-			text.SetActive(true);
-		}
-		foreach (GameObject asteroid in GameObject.FindGameObjectsWithTag("Asteroid")) {
-			Destroy(asteroid);
-		}
-		foreach (GameObject shield in GameObject.FindGameObjectsWithTag("Shield")) {
-			Destroy(shield);
-		}
-		foreach (GameObject nuke in GameObject.FindGameObjectsWithTag("Nuke")) {
-			Destroy(nuke);
-		}
-		foreach (GameObject nukeDrop in GameObject.FindGameObjectsWithTag("NukeDrop")) {
-			Destroy(nukeDrop);
-		}
+	void OnEnable () 
+	{
+		ClearGameplayObjects();
+		MainMenuShowing(true);
 	}
 	
-	void Update () {
-		foreach (Touch touch in Input.touches)
-		{
-			if (canTouch)
-			{
-				if (touch.phase == TouchPhase.Began)
-				{
-					if (OnStartButton(touch.position))
-					{
-						StartGame();
-					}
-					else if (OnQuitButton(touch.position))
-					{
-						Application.Quit();
-					}
-					else if (OnSettingsButton(touch.position))
-					{
-						EnableSettingsMenu();
-					}
-					//else if (OnLeaderboardButton(touch.position))
-					//{
-					//	//if (PlayGamesPlatform.Instance.IsAuthenticated())
-					//	//{
-					//	//	PlayGamesPlatform.Instance.ShowLeaderboardUI(leaderboard);
-					//	//}
-					//	//else
-					//	//{
-					//	//	soundManager.PlaySound(generalSounds.Sounds[1]);
-					//	//	StartCoroutine("LeaderboardFail");
-					//	//}
-					//}
-					//else if (OnLogInButton(touch.position))
-					//{
-					//	if (!PlayGamesPlatform.Instance.IsAuthenticated())
-					//	{
-					//		googlePlay.SendMessage("LogIn");
-					//	}
-					//	else
-					//	{
-					//		StartCoroutine("AlreadyLoggedIn");
-					//	}
-					//}
-				}
-			}
-		}
-
+	void Update () 
+	{
+		// This works for back button on mobile.
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			Application.Quit();
+			CloseApplication();
 		}
 	}
 
-	IEnumerator LeaderboardFail() {
-		canTouch = false;
-		foreach (GameObject text in menuText) {
-			text.SetActive(false);
-		}
-
-		leaderboardFailText.SetActive(true);
-		yield return new WaitForSeconds(2f);
-		leaderboardFailText.SetActive(false);
-
-		foreach (GameObject text in menuText) {
-			text.SetActive(true);
-		}
-		canTouch = true;
+	public void StartGame() 
+	{
+		player.SetActive(true);
+		asteroidSpawner.SetActive(true);
+		gameplayUI.SetActive(true);
+		gameObject.SetActive(false);
 	}
 
-	IEnumerator AlreadyLoggedIn() {
-		soundManager.PlaySound(generalSounds.Sounds[0]);
-		canTouch = false;
-		foreach (GameObject text in menuText) {
-			text.SetActive(false);
-		}
-
-		alreadyLoggedInText.SetActive(true);
-		yield return new WaitForSeconds(2f);
-		alreadyLoggedInText.SetActive(false);
-
-		foreach (GameObject text in menuText) {
-			text.SetActive(true);
-		}
-		canTouch = true;
+	public void EnableSettingsMenu() 
+	{
+		MainMenuShowing(false);
+		settingsMenu.SetActive(true);
 	}
 
-	public void LogInSuccess() {
-		StartCoroutine("SuccessfulLogIn");
+	public void MainMenuShowing(bool toggle) 
+	{
+		gameObject.SetActive(toggle);
 	}
 
-	IEnumerator SuccessfulLogIn() {
-		logInSuccessText.SetActive(true);
-		yield return new WaitForSeconds(2f);
-		logInSuccessText.SetActive(false);
+	public void CloseApplication()
+	{
+		Application.Quit();
 	}
 
-	public void FailedLogIn() {
-		StartCoroutine("LogInFailed");
-	}
-
-	IEnumerator LogInFailed() {
-		canTouch = false;
-		soundManager.PlaySound(generalSounds.Sounds[1]);
-		foreach (GameObject text in menuText) {
-			text.SetActive(false);
+	void ClearGameplayObjects()
+	{
+		foreach (GameObject asteroid in GameObject.FindGameObjectsWithTag("Asteroid"))
+		{
+			Destroy(asteroid);
 		}
-
-		logInFailedText.SetActive(true);
-		yield return new WaitForSeconds(2f);
-		logInFailedText.SetActive(false);
-
-		foreach (GameObject text in menuText) {
-			text.SetActive(true);
+		foreach (GameObject shield in GameObject.FindGameObjectsWithTag("Shield"))
+		{
+			Destroy(shield);
 		}
-		canTouch = true;
-	}
-
-	bool OnStartButton(Vector2 touchPos) {
-		if (touchPos.x > Screen.width * .4 && touchPos.x < Screen.width * .6
-			&& touchPos.y > Screen.height * .35 && touchPos.y < Screen.height * .55) {
-				return true;
+		foreach (GameObject nuke in GameObject.FindGameObjectsWithTag("Nuke"))
+		{
+			Destroy(nuke);
 		}
-		return false;
-	}
-
-	bool OnQuitButton(Vector2 touchPos) {
-		if (touchPos.x > Screen.width * .81
-			&& touchPos.y > Screen.height * .77 && touchPos.y < Screen.height * .9) {
-				soundManager.PlaySound(generalSounds.Sounds[0]);
-				return true;
-		}
-		return false;
-	}
-
-	bool OnLeaderboardButton(Vector2 touchPos) {
-		if (touchPos.x > Screen.width * .29 && touchPos.x < Screen.width * .7
-			&& touchPos.y > Screen.height * .23 && touchPos.y < Screen.height * .36) {
-			return true;
-		}
-		return false;
-	}
-
-	bool OnLogInButton(Vector2 touchPos) {
-		if (touchPos.x > Screen.width * .34 && touchPos.x < Screen.width * .6 && touchPos.y < Screen.height * .12) {
-			return true;
-		}
-		return false;
-	}		
-
-	bool OnSettingsButton(Vector2 touchPos) {
-		if (touchPos.x < Screen.width * .15 && touchPos.y > Screen.height * .85) {
-			return true;
-		}
-		return false;
-	}	
-
-	public void StartGame() {
-		foreach (GameObject startOfGameObject in startOfGameObjects) {
-			startOfGameObject.SetActive(true);
-		}
-		foreach (GameObject text in menuText) {
-			text.SetActive(false);
-		}
-
-		foreach (GameObject text in statMenuText) {
-			text.SetActive(false);
-		}
-
-		this.enabled = false;
-	}
-
-	void EnableSettingsMenu() {
-		foreach (GameObject text in menuText) {
-			text.SetActive(false);
-		}
-		settingsButton.sprite = settingsButtonPressed;
-		settingsMenu.enabled = true;
-		this.enabled = false;
-	}
-
-	public void ToggleMainMenu() {
-		foreach (GameObject text in menuText) {
-			text.SetActive(true);
-		}
-		this.enabled = true;
-		foreach (GameObject text in statMenuText) {
-			text.SetActive(false);
+		foreach (GameObject nukeDrop in GameObject.FindGameObjectsWithTag("NukeDrop"))
+		{
+			Destroy(nukeDrop);
 		}
 	}
 }
