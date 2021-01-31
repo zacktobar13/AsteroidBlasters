@@ -7,7 +7,7 @@ public class KillZone : MonoBehaviour {
 		if (other.gameObject.tag == "Player") {
 			PlayerStatusManager playerStatus = other.gameObject.GetComponent<PlayerStatusManager>();
 			if(playerStatus.hasShield) {
-				this.SendMessage("PlayerDeath", SendMessageOptions.DontRequireReceiver);
+				this.SendMessage("Death", SendMessageOptions.DontRequireReceiver);
 			}
 			other.gameObject.SendMessage("PlayerDeath");
 		}
